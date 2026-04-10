@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Page</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg, #000, #1a1a1a);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.box{
+  background:#222;
+  padding:25px;
+  width:300px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 0 15px red;
+}
+
+h2{
+  margin-bottom:20px;
+  color:red;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+  border:none;
+  border-radius:5px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  border:none;
+  background:red;
+  color:white;
+  font-size:16px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:darkred;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>🔐 LOGIN</h2>
+
+  <input type="text" id="user" placeholder="Username">
+  <input type="password" id="pass" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+function login(){
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  // simple check (you can remove password check if you want)
+  if(u !== "" && p !== ""){
+    
+    // 👉 IMPORTANT: redirect to your existing UID page
+    window.location.href = "uid.html";
+
+  } else {
+    alert("Please enter username and password");
+  }
+}
+</script>
+
+</body>
+  </html>
