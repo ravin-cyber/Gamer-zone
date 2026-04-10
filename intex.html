@@ -1,137 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gamerzone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gamerzone</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b0b0b;
-      color: white;
-      text-align: center;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0a0a0a;
+  color:white;
+  text-align:center;
+}
 
-    .page {
-      display: none;
-      padding: 20px;
-      min-height: 100vh;
-    }
+.page{
+  display:none;
+  padding:20px;
+}
 
-    .active {
-      display: block;
-    }
+.active{
+  display:block;
+}
 
-    h1 {
-      color: red;
-    }
+h1{
+  color:#ff0000;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 20px;
-    }
+.box{
+  background:#1c1c1c;
+  margin:10px;
+  padding:10px;
+  border-radius:10px;
+}
 
-    .card {
-      background: #1a1a1a;
-      padding: 10px;
-      border-radius: 10px;
-    }
+img{
+  width:100%;
+  border-radius:10px;
+}
 
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-    }
+button{
+  padding:12px;
+  width:70%;
+  border:none;
+  background:red;
+  color:white;
+  border-radius:8px;
+  font-size:16px;
+  margin-top:15px;
+}
 
-    button {
-      padding: 12px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      background: red;
-      color: white;
-      font-size: 16px;
-    }
+input{
+  padding:10px;
+  width:80%;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+}
 
-    input {
-      padding: 10px;
-      width: 80%;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-    }
-
-    .success {
-      margin-top: 20px;
-      color: #00ff7f;
-      font-size: 18px;
-    }
-  </style>
+.success{
+  color:#00ff88;
+  margin-top:20px;
+}
+</style>
 </head>
 
 <body>
 
 <!-- PAGE 1 -->
-<div id="p1" class="page active">
-  <h1>GAMERZONE</h1>
-  <p>Claim Gun Skins, Emotes & Bundles</p>
+<div id="page1" class="page active">
+<h1>GAMERZONE</h1>
+<p>Free Skins, Emotes & Bundles</p>
 
-  <div class="grid">
-    <div class="card">
-      <img src="https://i.imgur.com/3ZQ3ZQm.jpg">
-      <p>Gun Skin</p>
-    </div>
+<div class="box">
+<img src="https://i.imgur.com/3ZQ3ZQm.jpg">
+<p>Gun Skins</p>
+</div>
 
-    <div class="card">
-      <img src="https://i.imgur.com/2yYayZk.jpg">
-      <p>Emote</p>
-    </div>
+<div class="box">
+<img src="https://i.imgur.com/2yYayZk.jpg">
+<p>Emotes</p>
+</div>
 
-    <div class="card">
-      <img src="https://i.imgur.com/7yUvePI.jpg">
-      <p>Bundle</p>
-    </div>
+<div class="box">
+<img src="https://i.imgur.com/7yUvePI.jpg">
+<p>Bundles</p>
+</div>
 
-    <div class="card">
-      <img src="https://i.imgur.com/8Km9tLL.jpg">
-      <p>Reward</p>
-    </div>
-  </div>
-
-  <button onclick="go(2)">Claim Now</button>
+<button onclick="go(2)">CLAIM NOW</button>
 </div>
 
 <!-- PAGE 2 -->
-<div id="p2" class="page">
-  <h1>Enter Game UID</h1>
-  <input id="uid" placeholder="Enter UID"/>
-  <br>
-  <button onclick="go(3)">Next</button>
+<div id="page2" class="page">
+<h1>ENTER UID</h1>
+
+<input id="uid" placeholder="Enter Game UID">
+
+<br>
+<button onclick="go(3)">NEXT</button>
 </div>
 
 <!-- PAGE 3 -->
-<div id="p3" class="page">
-  <h1>Set Time</h1>
-  <input type="time" id="time"/>
-  <br>
-  <button onclick="showSuccess()">Confirm</button>
+<div id="page3" class="page">
+<h1>SET TIME</h1>
 
-  <div id="msg" class="success" style="display:none;">
-    🎉 Congratulations! You have successfully claimed your reward.
-  </div>
+<input type="time">
+
+<br>
+<button onclick="finish()">CONFIRM</button>
+
+<div id="msg" class="success"></div>
 </div>
 
 <script>
-function go(page){
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('p' + page).classList.add('active');
+function go(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page'+p).classList.add('active');
 }
 
-function showSuccess(){
-  document.getElementById('msg').style.display = 'block';
+function finish(){
+  document.getElementById("msg").innerHTML =
+  "🎉 Congratulations! You claimed your reward successfully.";
 }
 </script>
 
