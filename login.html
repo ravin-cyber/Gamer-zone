@@ -1,90 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gamerzone Login</title>
+<title>GameZone Login</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial;
-}
-
-/* SAME BACKGROUND STYLE AS FIRST PAGE */
+/* PAGE BACKGROUND (same as index.html) */
 body{
+  margin:0;
+  font-family:Arial;
+  background:red;
   height:100vh;
-  width:100vw;
-  background: url("bg.jpg") no-repeat center center fixed;
-  background-size:cover;
-  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   color:white;
 }
 
-/* DARK OVERLAY (same feel as index page) */
-body::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-  z-index:0;
-}
-
-/* CENTER BOX */
-.login-box{
-  position:relative;
-  z-index:1;
-  width:90%;
-  max-width:360px;
-  margin:120px auto 0;
+/* LOGIN BOX */
+.box{
+  width:300px;
+  background:black;
   padding:25px;
-  background:rgba(0,0,0,0.7);
-  border-radius:15px;
+  border:2px solid white;
+  border-radius:12px;
   text-align:center;
-  box-shadow:0 0 15px rgba(0,255,0,0.2);
+  box-shadow:0 0 15px black;
 }
 
+/* TITLE */
 h2{
   margin-bottom:20px;
-  color:#00ff66;
 }
 
+/* INPUT BOX */
 input{
-  width:100%;
-  padding:12px;
+  width:90%;
+  padding:10px;
   margin:10px 0;
   border:none;
-  border-radius:8px;
   outline:none;
-  font-size:14px;
+  border-radius:5px;
 }
 
-/* NEXT BUTTON (BOTTOM FIXED) */
-.next-btn{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  width:85%;
-  max-width:320px;
-  padding:14px;
-  background:linear-gradient(90deg, #00ff66, #00cc44);
-  color:white;
+/* BUTTON */
+button{
+  width:95%;
+  padding:12px;
+  margin-top:10px;
   border:none;
-  border-radius:10px;
+  background:white;
+  color:red;
   font-size:16px;
+  font-weight:bold;
+  border-radius:5px;
   cursor:pointer;
-  z-index:2;
-  box-shadow:0 0 10px rgba(0,255,0,0.4);
 }
 
-.next-btn:hover{
-  transform:translateX(-50%) scale(1.03);
+/* BUTTON HOVER */
+button:hover{
+  background:#ddd;
+}
+
+/* SMALL TEXT */
+p{
+  font-size:12px;
+  opacity:0.7;
+  margin-top:10px;
 }
 </style>
 
@@ -92,18 +75,30 @@ input{
 
 <body>
 
-<div class="login-box">
-  <h2>Gamerzone Login</h2>
+<div class="box">
 
-  <input type="text" placeholder="Enter Username">
-  <input type="password" placeholder="Enter Password">
+  <h2>🎮 GameZone Login</h2>
+
+  <input type="text" id="user" placeholder="Enter Username">
+  <input type="password" id="pass" placeholder="Enter Password">
+
+  <button onclick="login()">LOGIN</button>
+
+  <p>Access your Gamer Reward System</p>
+
 </div>
 
-<!-- NEXT BUTTON -->
-<button class="next-btn" onclick="goNext()">NEXT</button>
-
 <script>
-function goNext(){
+function login(){
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
+
+  if(user == "" || pass == ""){
+    alert("Please fill all fields");
+    return;
+  }
+
+  // redirect to next page
   window.location.href = "uid.html";
 }
 </script>
