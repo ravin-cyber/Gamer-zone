@@ -1,126 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login - GameZone</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Gamer Zone Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-background:#0b0b0b;
-color:white;
-text-align:center;
-font-family:Arial;
-margin:0;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-h2{
-color:#ff3c3c;
-margin-top:30px;
-}
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #8B0000, black);
+      color: white;
+      font-family: Arial;
+      text-align: center;
+    }
 
-.box{
-background:#1c1c1c;
-margin:20px;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(255,60,60,0.4);
-}
+    .box {
+      margin-top: 70px;
+      padding: 20px;
+    }
 
-input{
-width:90%;
-padding:12px;
-margin:8px;
-border:none;
-border-radius:5px;
-font-size:15px;
-}
+    input {
+      width: 85%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
 
-button{
-width:95%;
-padding:12px;
-margin-top:10px;
-background:#ff3c3c;
-color:white;
-border:none;
-border-radius:5px;
-font-size:16px;
-cursor:pointer;
-}
+    button {
+      width: 90%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: none;
+      background: gold;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-button:hover{
-background:#ff1f1f;
-}
-</style>
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      font-size: 12px;
+      opacity: 0.6;
+    }
+
+    .dialogue {
+      margin-top: 15px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
 
-<h2>🔥 Login to Claim Reward</h2>
-
 <div class="box">
+  <h2>🎮 Gamer Zone</h2>
+  <p>Login or Signup to Continue</p>
 
-<input type="email" id="email" placeholder="Enter Gmail">
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
 
-<input type="password" placeholder="Enter Password (optional)">
+  <button onclick="signup()">Sign Up</button>
+  <button onclick="login()">Login</button>
 
-<button onclick="sendOTP()">Send OTP</button>
-
-<input type="text" id="otp" placeholder="Enter OTP">
-
-<button onclick="verifyOTP()">Verify & Continue</button>
-
+  <div class="dialogue">
+    💬 "Every reward needs a player — log in and win big!"
+  </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<div class="footer">
+  © 2026 Gamer Zone | All Rights Reserved
+</div>
 
 <script>
-const supabaseClient = supabase.createClient(
+const supabase = window.supabase.createClient(
   "https://jetwvplkvkwkcetqswcj.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtdHJueHRvZ3phaGV4eHVoam1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MTY3NDcsImV4cCI6MjA5MTM5Mjc0N30.wrYgiSRTPq_QVOWg-cd29XKT-TPuxrMwFRznq84h_ks"
+  "sb_publishable_vGeRfzqFeohO7ikkgfCD_g_Yu0ZC05I"
 );
 
-async function sendOTP() {
+// 🔐 SIGNUP (sends OTP email)
+async function signup() {
   const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  if (!email) {
-    alert("Enter email first!");
-    return;
-  }
-
-  const { error } = await supabaseClient.auth.signInWithOtp({
-    email: email
+  const { error } = await supabase.auth.signUp({
+    email: email,
+    password: password
   });
 
   if (error) {
-    alert("Error: " + error.message);
+    alert("❌ " + error.message);
   } else {
-    alert("OTP sent! Check email 📩");
+    alert("✅ Signup successful! Check your email for OTP verification.");
   }
 }
 
-async function verifyOTP() {
+// 🔑 LOGIN
+async function login() {
   const email = document.getElementById("email").value;
-  const otp = document.getElementById("otp").value;
+  const password = document.getElementById("password").value;
 
-  if (!otp) {
-    alert("Enter OTP!");
-    return;
-  }
-
-  const { error } = await supabaseClient.auth.verifyOtp({
+  const { error } = await supabase.auth.signInWithPassword({
     email: email,
-    token: otp,
-    type: "email"
+    password: password
   });
 
   if (error) {
-    alert("Invalid OTP ❌");
+    alert("❌ " + error.message);
   } else {
-    alert("Login successful ✅");
+    alert("🎉 Login successful!");
     window.location.href = "uid.html";
   }
 }
 </script>
 
 </body>
-</html>
+  </html>
