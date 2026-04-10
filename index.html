@@ -57,6 +57,7 @@ background:#ff3c3c;
 color:white;
 border:none;
 border-radius:5px;
+cursor:pointer;
 }
 
 .nav a{
@@ -71,6 +72,14 @@ text-decoration:none;
 img{height:150px;}
 }
 </style>
+
+<script>
+// Function to redirect to login page
+function goToLogin(){
+    window.location.href = "login.html";
+}
+</script>
+
 </head>
 
 <body>
@@ -84,14 +93,14 @@ img{height:150px;}
 </div>
 
 <div class="grid">
-<div class="card"><img src="img1.jpg"><p>AK47 - Dragon Fire</p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img2.jpg"><p>M4A1 - Ice Storm</p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img3.jpg"><p>UMP - EVO MAX </p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img4.jpg"><p>AWM - Royal Skull</p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img5.jpg"><p>MP40 - COBRA MAX</p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img6.jpg"><p>Scar - Red Venom</p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img7.jpg"><p>Groza - Thunder Core</p><button onclick="location.href='login.html'">Claim</button></div>
-<div class="card"><img src="img8.jpg"><p>Famas - Cyber Wave</p><button onclick="location.href='login.html'">Claim</button></div>
+<div class="card"><img src="img1.jpg"><p>AK47 - Dragon Fire</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img2.jpg"><p>M4A1 - Ice Storm</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img3.jpg"><p>UMP - EVO MAX</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img4.jpg"><p>AWM - Royal Skull</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img5.jpg"><p>MP40 - COBRA MAX</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img6.jpg"><p>Scar - Red Venom</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img7.jpg"><p>Groza - Thunder Core</p><button onclick="goToLogin()">Claim</button></div>
+<div class="card"><img src="img8.jpg"><p>Famas - Cyber Wave</p><button onclick="goToLogin()">Claim</button></div>
 </div>
 
 <div class="nav">
@@ -99,4 +108,4 @@ img{height:150px;}
 </div>
 
 </body>
-</html>
+                                                               </html>
