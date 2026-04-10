@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <title>Success</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -60,6 +61,35 @@ font-size:14px;
 .share{background:#00ffcc;color:black;}
 </style>
 </head>
+  <script>
+window.onload = function () {
+    // Blast effect (confetti)
+    confetti({
+        particleCount: 200,
+        spread: 120,
+        origin: { y: 0.6 }
+    });
+
+    // Extra burst effect
+    setTimeout(() => {
+        confetti({
+            particleCount: 100,
+            angle: 60,
+            spread: 80,
+            origin: { x: 0 }
+        });
+    }, 300);
+
+    setTimeout(() => {
+        confetti({
+            particleCount: 100,
+            angle: 120,
+            spread: 80,
+            origin: { x: 1 }
+        });
+    }, 600);
+};
+  </script>
 
 <body>
 
