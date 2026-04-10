@@ -138,17 +138,7 @@ window.onload = function () {
 <body>
 
 
-<!-- ✅ IMAGE BOX (MAIN DISPLAY) -->
-<div class="image-box">
-    <img id="claimedImg" src="img1.jpg">
-</div>
 
-<!-- ✅ CLICKABLE IMAGES -->
-<div class="gallery">
-    <img src="img1.jpg" onclick="changeImg(this.src)">
-    <img src="img2.jpg" onclick="changeImg(this.src)">
-    ...
-</div>
 
 <script>
 function changeImg(src) {
@@ -174,6 +164,17 @@ document.getElementById("timer").innerText=t;
 
 if(t==0){
 clearInterval(x);
+  <!-- ✅ IMAGE BOX (MAIN DISPLAY) -->
+<div class="image-box">
+    <img id="claimedImg" src="img1.jpg">
+</div>
+
+<!-- ✅ CLICKABLE IMAGES -->
+<div class="gallery">
+    <img src="img1.jpg" onclick="changeImg(this.src)">
+    <img src="img2.jpg" onclick="changeImg(this.src)">
+    ...
+</div>
 
 /* 🔊 SOUND */
 document.getElementById("winsound").play();
