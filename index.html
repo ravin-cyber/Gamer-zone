@@ -3,53 +3,80 @@
 <head>
 <title>GameZone Rewards</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
 background:#0b0b0b;
 color:white;
 text-align:center;
 font-family:Arial;
+margin:0;
+padding:0;
 }
 
-h1{color:#ff3c3c;}
+h1{
+color:#ff3c3c;
+font-size:22px;
+margin:10px 0;
+}
 
+/* 🔥 QUOTES SECTION */
+.quotes{
+background:#111;
+margin:10px;
+padding:10px;
+border-radius:10px;
+font-size:14px;
+color:#00ffcc;
+line-height:1.5;
+}
+
+/* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(4,1fr);
+grid-template-columns:repeat(2,1fr);
 gap:10px;
-padding:20px;
+padding:10px;
 }
 
 .card{
 background:#1c1c1c;
-padding:10px;
+padding:8px;
 border-radius:10px;
 }
 
 img{
 width:100%;
+height:120px;
+object-fit:cover;
 border-radius:10px;
 }
 
 button{
-padding:10px;
+width:100%;
+padding:8px;
+margin-top:5px;
 background:red;
 color:white;
 border:none;
 border-radius:5px;
-margin-top:5px;
-cursor:pointer;
-}
-
-button:hover{
-background:darkred;
+font-size:14px;
 }
 
 .nav a{
 color:#00ffcc;
-margin:10px;
-display:inline-block;
+display:block;
+margin:15px;
 text-decoration:none;
+}
+
+/* Desktop */
+@media(min-width:768px){
+.grid{
+grid-template-columns:repeat(4,1fr);
+}
+img{height:150px;}
 }
 </style>
 
@@ -57,62 +84,32 @@ text-decoration:none;
 
 <body>
 
-<h1>🔥 Gun Skins Rewards</h1>
+<h1>🔥 GameZone Rewards</h1>
+
+<!-- ⭐ QUOTES SECTION -->
+<div class="quotes">
+“Victory is not given, it is earned.” <br>
+“Only the strong survive in the battleground.” <br>
+“Play hard. Win harder.” <br>
+“Every match is a new chance to become a legend.” <br>
+“Drop in. Gear up. Dominate.”
+</div>
 
 <div class="grid">
 
-<div class="card">
-<img src="img1.jpg">
-<p>AK47 - Dragon Fire</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img2.jpg">
-<p>M4A1 - Ice Storm</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img3.jpg">
-<p>UMP - Neon Blaze</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img4.jpg">
-<p>AWM - Royal Skull</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img5.jpg">
-<p>MP40 - Gold Rush</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img6.jpg">
-<p>Scar - Red Venom</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img7.jpg">
-<p>Groza - Thunder Core</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
-
-<div class="card">
-<img src="img8.jpg">
-<p>Famas - Cyber Wave</p>
-<button onclick="location.href='uid.html'">Claim Now</button>
-</div>
+<div class="card"><img src="img1.jpg"><p>AK47 - Dragon Fire</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img2.jpg"><p>M4A1 - Ice Storm</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img3.jpg"><p>UMP - Neon Blaze</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img4.jpg"><p>AWM - Royal Skull</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img5.jpg"><p>MP40 - Gold Rush</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img6.jpg"><p>Scar - Red Venom</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img7.jpg"><p>Groza - Thunder Core</p><button onclick="location.href='uid.html'">Claim</button></div>
+<div class="card"><img src="img8.jpg"><p>Famas - Cyber Wave</p><button onclick="location.href='uid.html'">Claim</button></div>
 
 </div>
 
 <div class="nav">
-<a href="page2.html">Next Page ➜ Bundles</a>
+<a href="page2.html">➡ Next Page: Bundles</a>
 </div>
 
 </body>
