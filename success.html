@@ -15,10 +15,6 @@ padding:0;
 overflow:hidden;
 }
 
-.container{
-margin-top:80px;
-}
-
 h1{color:#ff3c3c;}
 
 #timer{
@@ -26,18 +22,26 @@ color:#00ffcc;
 font-size:30px;
 }
 
-/* Claimed Image Box */
+/* ⭐ IMAGE BOX (IMPROVED) */
 .reward-box{
 margin:20px auto;
-width:80%;
+width:85%;
 background:#1c1c1c;
-padding:10px;
-border-radius:10px;
+padding:15px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(255,60,60,0.3);
 }
 
 .reward-box img{
 width:100%;
-border-radius:10px;
+border-radius:12px;
+border:2px solid #ff3c3c;
+}
+
+.reward-title{
+color:#00ffcc;
+margin-top:10px;
+font-size:14px;
 }
 
 /* Quotes */
@@ -51,97 +55,92 @@ font-size:14px;
 width:85%;
 }
 
-/* Blast */
-.blast{
-position:fixed;
-top:50%;
-left:50%;
-width:10px;
-height:10px;
-background:red;
-border-radius:50%;
-transform:translate(-50%,-50%);
-animation:explode 1s ease-out forwards;
+/* Buttons */
+.btns{
+margin-top:20px;
 }
 
-@keyframes explode{
-0%{transform:translate(-50%,-50%) scale(1);opacity:1;}
-100%{transform:translate(-50%,-50%) scale(50);opacity:0;}
+button{
+padding:10px;
+width:40%;
+margin:5px;
+border:none;
+border-radius:5px;
+color:white;
+font-size:14px;
 }
 
-/* Confetti */
-.confetti{
-position:fixed;
-width:8px;
-height:8px;
-background:yellow;
-top:-10px;
-animation:fall 3s linear infinite;
-}
-
-@keyframes fall{
-0%{transform:translateY(0);}
-100%{transform:translateY(100vh);}
-}
+.home{background:#ff3c3c;}
+.share{background:#00ffcc;color:black;}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
 <h1>⏳ Processing Reward...</h1>
 <h2 id="timer">5</h2>
 
-</div>
-
 <script>
+let t=5;
+let rewardImg=localStorage.getItem("rewardImg") || "img1.jpg";
 
-let t = 5;
-
-let rewardImg = localStorage.getItem("rewardImg") || "img1.jpg"; // default image
-
-let x = setInterval(()=>{
+let x=setInterval(()=>{
 t--;
-document.getElementById("timer").innerText = t;
+document.getElementById("timer").innerText=t;
 
-if(t == 0){
+if(t==0){
 clearInterval(x);
 
-/* SUCCESS SCREEN */
-document.body.innerHTML = `
+document.body.innerHTML=`
 <h1>🎉 Reward Claimed Successfully</h1>
 
+<!-- ⭐ IMAGE IN BOX -->
 <div class="reward-box">
 <img src="${rewardImg}">
-<p style="color:#00ffcc;">Your Claimed Item</p>
+<div class="reward-title">Your Claimed Reward Item</div>
 </div>
 
 <div class="quotes">
 “Victory belongs to legends.”<br>
-“Your reward is ready.”<br>
-“Keep playing, keep winning.”
+“Keep playing. Keep winning.”<br>
+“Your reward is ready.”
+</div>
+
+<div class="btns">
+<button class="home" onclick="location.href='index.html'">🏠 Home</button>
+<button class="share" onclick="shareSite()">🔗 Share</button>
 </div>
 `;
 
-/* BLAST */
-let blast = document.createElement("div");
-blast.classList.add("blast");
+/* blast effect */
+let blast=document.createElement("div");
+blast.style.cssText="position:fixed;top:50%;left:50%;width:10px;height:10px;background:red;border-radius:50%;transform:translate(-50%,-50%);animation:boom 1s forwards;";
 document.body.appendChild(blast);
 
-/* CONFETTI */
-for(let i=0;i<30;i++){
-let conf = document.createElement("div");
-conf.classList.add("confetti");
-conf.style.left = Math.random()*100 + "vw";
-conf.style.background = ["red","yellow","blue","#00ffcc"][Math.floor(Math.random()*4)];
-conf.style.animationDuration = (2+Math.random()*3)+"s";
-document.body.appendChild(conf);
-}
-}
+/* animation */
+let style=document.createElement("style");
+style.innerHTML=`
+@keyframes boom{
+0%{transform:translate(-50%,-50%) scale(1);opacity:1;}
+100%{transform:translate(-50%,-50%) scale(50);opacity:0;}
+}`;
+document.head.appendChild(style);
 
+}
 },1000);
 
+/* SHARE */
+function shareSite(){
+if(navigator.share){
+navigator.share({
+title:"GameZone Rewards",
+text:"Check out this awesome reward site!",
+url:window.location.href
+});
+}else{
+alert("Sharing not supported");
+}
+}
 </script>
 
 </body>
