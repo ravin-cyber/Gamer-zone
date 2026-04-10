@@ -1,75 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Gamer Zone Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Gamer Zone Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, #8B0000, black);
-      color: white;
-      font-family: Arial;
-      text-align: center;
-    }
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #8B0000, #000000);
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+}
 
-    .box {
-      margin-top: 70px;
-      padding: 20px;
-    }
+.container {
+  margin-top: 70px;
+  padding: 20px;
+}
 
-    input {
-      width: 85%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-    }
+h1 {
+  font-size: 28px;
+}
 
-    button {
-      width: 90%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: none;
-      background: gold;
-      font-weight: bold;
-      cursor: pointer;
-    }
+p {
+  font-size: 14px;
+  opacity: 0.8;
+}
 
-    .footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
-      font-size: 12px;
-      opacity: 0.6;
-    }
+input {
+  width: 85%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
 
-    .dialogue {
-      margin-top: 15px;
-      font-size: 13px;
-      opacity: 0.7;
-    }
-  </style>
+button {
+  width: 90%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  background: gold;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: orange;
+}
+
+.dialogue {
+  margin-top: 20px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.footer {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  font-size: 12px;
+  opacity: 0.6;
+}
+</style>
 </head>
 
 <body>
 
-<div class="box">
-  <h2>🎮 Gamer Zone</h2>
-  <p>Login or Signup to Continue</p>
+<div class="container">
+  <h1>🎮 Gamer Zone</h1>
+  <p>Sign up & verify with OTP</p>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+  <input type="email" id="email" placeholder="Enter Email">
+  <input type="password" id="password" placeholder="Enter Password">
 
-  <button onclick="signup()">Sign Up</button>
+  <button onclick="sendOTP()">Sign Up & Send OTP</button>
+
+  <input type="text" id="otp" placeholder="Enter OTP">
+  <button onclick="verifyOTP()">Verify OTP</button>
+
   <button onclick="login()">Login</button>
 
   <div class="dialogue">
-    💬 "Every reward needs a player — log in and win big!"
+    💬 "Victory begins with a login — claim your rewards now!"
   </div>
 </div>
 
@@ -83,24 +104,50 @@ const supabase = window.supabase.createClient(
   "sb_publishable_vGeRfzqFeohO7ikkgfCD_g_Yu0ZC05I"
 );
 
-// 🔐 SIGNUP (sends OTP email)
-async function signup() {
+// 📩 Send OTP
+async function sendOTP() {
   const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  const { error } = await supabase.auth.signUp({
-    email: email,
-    password: password
+  if (!email) {
+    alert("Enter email");
+    return;
+  }
+
+  const { error } = await supabase.auth.signInWithOtp({
+    email: email
   });
 
   if (error) {
     alert("❌ " + error.message);
   } else {
-    alert("✅ Signup successful! Check your email for OTP verification.");
+    alert("✅ OTP sent to your email");
   }
 }
 
-// 🔑 LOGIN
+// 🔐 Verify OTP
+async function verifyOTP() {
+  const email = document.getElementById("email").value;
+  const otp = document.getElementById("otp").value;
+
+  if (!otp) {
+    alert("Enter OTP");
+    return;
+  }
+
+  const { error } = await supabase.auth.verifyOtp({
+    email: email,
+    token: otp,
+    type: "email"
+  });
+
+  if (error) {
+    alert("❌ " + error.message);
+  } else {
+    alert("🎉 Email verified successfully!");
+  }
+}
+
+// 🔑 Login with password
 async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -120,4 +167,4 @@ async function login() {
 </script>
 
 </body>
-  </html>
+</html>
