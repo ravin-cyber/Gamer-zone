@@ -15,20 +15,43 @@ padding:0;
 overflow:hidden;
 }
 
-/* Center content */
 .container{
-margin-top:120px;
+margin-top:80px;
 }
 
 h1{color:#ff3c3c;}
 
-/* Timer */
 #timer{
 color:#00ffcc;
 font-size:30px;
 }
 
-/* Blast effect */
+/* Claimed Image Box */
+.reward-box{
+margin:20px auto;
+width:80%;
+background:#1c1c1c;
+padding:10px;
+border-radius:10px;
+}
+
+.reward-box img{
+width:100%;
+border-radius:10px;
+}
+
+/* Quotes */
+.quotes{
+margin:15px auto;
+background:#111;
+padding:10px;
+border-radius:10px;
+color:#00ffcc;
+font-size:14px;
+width:85%;
+}
+
+/* Blast */
 .blast{
 position:fixed;
 top:50%;
@@ -70,14 +93,14 @@ animation:fall 3s linear infinite;
 <h1>⏳ Processing Reward...</h1>
 <h2 id="timer">5</h2>
 
-<div id="msg">Please wait...</div>
-
 </div>
 
 <script>
 
-// TIMER
 let t = 5;
+
+let rewardImg = localStorage.getItem("rewardImg") || "img1.jpg"; // default image
+
 let x = setInterval(()=>{
 t--;
 document.getElementById("timer").innerText = t;
@@ -85,13 +108,23 @@ document.getElementById("timer").innerText = t;
 if(t == 0){
 clearInterval(x);
 
-/* SUCCESS TEXT */
+/* SUCCESS SCREEN */
 document.body.innerHTML = `
 <h1>🎉 Reward Claimed Successfully</h1>
-<p style="color:#00ffcc;">Congratulations Player!</p>
+
+<div class="reward-box">
+<img src="${rewardImg}">
+<p style="color:#00ffcc;">Your Claimed Item</p>
+</div>
+
+<div class="quotes">
+“Victory belongs to legends.”<br>
+“Your reward is ready.”<br>
+“Keep playing, keep winning.”
+</div>
 `;
 
-/* BLAST EFFECT */
+/* BLAST */
 let blast = document.createElement("div");
 blast.classList.add("blast");
 document.body.appendChild(blast);
