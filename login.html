@@ -1,119 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
+<title>Login - GameZone</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GamerZone Login</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #ff0000, #1a0000);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+body{
+background:#0b0b0b;
+color:white;
+text-align:center;
+font-family:Arial;
+margin:0;
+padding:0;
 }
 
-.box {
-  background: rgba(0,0,0,0.85);
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
-  width: 90%;
-  max-width: 350px;
-  box-shadow: 0 0 20px red;
+h2{
+color:#ff3c3c;
+margin-top:40px;
 }
 
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: none;
+.box{
+background:#1c1c1c;
+margin:20px;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(255,60,60,0.5);
 }
 
-button {
-  width: 95%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  background: red;
-  color: white;
-  font-size: 16px;
+input{
+width:90%;
+padding:12px;
+margin:10px;
+border:none;
+border-radius:5px;
+font-size:16px;
+}
+
+button{
+width:95%;
+padding:12px;
+background:#ff3c3c;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff1f1f;
 }
 </style>
 </head>
 
 <body>
 
+<h2>🔥 Login to Claim Reward</h2>
+
 <div class="box">
-  <h2>🎮 GamerZone Login</h2>
+<input type="email" id="email" placeholder="Enter your email">
 
-  <input type="email" id="email" placeholder="Enter Email">
-  <input type="password" id="password" placeholder="Enter Password">
-
-  <button onclick="sendOTP()">Send OTP</button>
-
-  <input type="text" id="otp" placeholder="Enter OTP">
-
-  <button onclick="verifyOTP()">Verify & Login</button>
+<button onclick="sendOTP()">Send OTP</button>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 <script>
-const supabaseUrl = "https://jetwvplkvkwkcetqswcj.supabase.co";
-const supabaseKey = "sb_publishable_GZ37ioD42qB74R4skBs8fg_XVVOYWyK";
+const supabaseClient = supabase.createClient(
+  "https://jetwvplkvkwkcetqswcj.supabase.co",
+  "sb_publishable_vGeRfzqFeohO7ikkgfCD_g_Yu0ZC05I"
+);
 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-// STEP 1: Send OTP
 async function sendOTP() {
   const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
 
-  if (!email || !password) {
-    alert("Enter email and password");
+  if (!email) {
+    alert("Enter email first!");
     return;
   }
 
-  // (Password not checked here - OTP based login)
-  const { error } = await supabase.auth.signInWithOtp({
+  const { error } = await supabaseClient.auth.signInWithOtp({
     email: email
   });
 
   if (error) {
-    alert(error.message);
+    alert("Error: " + error.message);
   } else {
-    alert("OTP sent to your email!");
-  }
-}
-
-// STEP 2: Verify OTP
-async function verifyOTP() {
-  const email = document.getElementById("email").value;
-  const otp = document.getElementById("otp").value;
-
-  if (!otp) {
-    alert("Enter OTP");
-    return;
-  }
-
-  const { error } = await supabase.auth.verifyOtp({
-    email: email,
-    token: otp,
-    type: "email"
-  });
-
-  if (error) {
-    alert(error.message);
-  } else {
-    alert("Login Successful!");
-    window.location.href = "uid.html";
+    alert("OTP sent! Check your email 📩");
   }
 }
 </script>
