@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login Page</title>
+<title>GameZone Login</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg, #000, #1a1a1a);
-  color:white;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
+  background: linear-gradient(135deg, red, black);
+  color:white;
 }
 
+/* Login box */
 .box{
-  background:#222;
-  padding:25px;
   width:300px;
-  border-radius:12px;
+  padding:25px;
+  background: rgba(0,0,0,0.6);
+  border:2px solid red;
+  border-radius:15px;
+  box-shadow:0 0 20px red;
   text-align:center;
-  box-shadow:0 0 15px red;
 }
 
+/* Title */
 h2{
   margin-bottom:20px;
   color:red;
 }
 
+/* Inputs */
 input{
-  width:100%;
+  width:90%;
   padding:10px;
   margin:10px 0;
   border:none;
+  outline:none;
   border-radius:5px;
 }
 
+/* Button */
 button{
-  width:100%;
+  width:95%;
   padding:10px;
-  border:none;
+  margin-top:10px;
   background:red;
+  border:none;
   color:white;
   font-size:16px;
   border-radius:5px;
@@ -51,36 +58,35 @@ button{
 button:hover{
   background:darkred;
 }
+
+/* Small text */
+p{
+  font-size:12px;
+  opacity:0.7;
+}
 </style>
+
 </head>
 
 <body>
 
 <div class="box">
-  <h2>🔐 LOGIN</h2>
+  <h2>🎮 GameZone Login</h2>
 
-  <input type="text" id="user" placeholder="Username">
-  <input type="password" id="pass" placeholder="Password">
+  <input type="text" placeholder="Enter Username">
+  <input type="password" placeholder="Enter Password">
 
   <button onclick="login()">Login</button>
+
+  <p>Welcome to Gamer Reward System</p>
 </div>
 
 <script>
 function login(){
-  let u = document.getElementById("user").value;
-  let p = document.getElementById("pass").value;
-
-  // simple check (you can remove password check if you want)
-  if(u !== "" && p !== ""){
-    
-    // 👉 IMPORTANT: redirect to your existing UID page
-    window.location.href = "uid.html";
-
-  } else {
-    alert("Please enter username and password");
-  }
+  // simple redirect to next page (UID page)
+  window.location.href = "uid.html";
 }
 </script>
 
 </body>
-  </html>
+</html>
