@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Success</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Success Page</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-
 body {
-    background: #111;
-    text-align: center;
+    margin: 0;
     font-family: Arial;
+    background: #0f0f0f;
+    color: white;
+    text-align: center;
 }
 
-/* BIG CLAIMED IMAGE */
+/* TIMER */
+.timer {
+    font-size: 20px;
+    margin-top: 10px;
+    color: gold;
+    font-weight: bold;
+}
+
+/* SUCCESS BOX */
+.success-box {
+    padding: 20px;
+}
+
+/* BIG IMAGE */
 .image-box {
     width: 220px;
     height: 220px;
-    margin: 20px auto;
+    margin: 15px auto;
     border: 3px solid gold;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 0 20px gold;
+    box-shadow: 0 0 25px gold;
 }
 
 .image-box img {
@@ -35,186 +51,170 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     width: 90%;
-    margin: auto;
+    margin: 20px auto;
 }
 
 .gallery img {
     width: 100%;
     border-radius: 10px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 .gallery img:hover {
     transform: scale(1.1);
     box-shadow: 0 0 10px gold;
 }
-body{
-background:#0b0b0b;
-color:white;
-text-align:center;
-font-family:Arial;
-margin:0;
-padding:0;
-overflow:hidden;
+
+/* BUTTONS */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-h1{color:#ff3c3c;}
-
-#timer{color:#00ffcc;font-size:30px;}
-
-.reward-box{
-margin:20px auto;
-width:85%;
-background:#1c1c1c;
-padding:15px;
-border-radius:15px;
-box-shadow:0 0 15px rgba(255,60,60,0.3);
+.home-btn {
+    background: green;
+    color: white;
 }
 
-.reward-box img{
-width:100%;
-border-radius:12px;
-border:2px solid #ff3c3c;
+.share-btn {
+    background: blue;
+    color: white;
 }
-
-.quotes{
-margin:15px auto;
-background:#111;
-padding:10px;
-border-radius:10px;
-color:#00ffcc;
-font-size:14px;
-width:85%;
-}
-
-.btns{margin-top:20px;}
-
-button{
-padding:10px;
-width:40%;
-margin:5px;
-border:none;
-border-radius:5px;
-color:white;
-font-size:14px;
-}
-
-.home{background:#ff3c3c;}
-.share{background:#00ffcc;color:black;}
 </style>
 </head>
-  <script>
+
+<body>
+
+<div class="success-box">
+
+    <h2>🎉 Claim Successful!</h2>
+
+    <!-- TIMER -->
+    <div class="timer">
+        ⏳ Time Left: <span id="time">10</span>s
+    </div>
+
+    <!-- BIG IMAGE -->
+    <div class="image-box">
+        <img id="claimedImg" src="img1.jpg">
+    </div>
+
+    <p>Tap image to change reward</p>
+
+    <!-- GALLERY -->
+    <div class="gallery">
+        <img src="img1.jpg" onclick="changeImg(this.src)">
+        <img src="img2.jpg" onclick="changeImg(this.src)">
+        <img src="img3.jpg" onclick="changeImg(this.src)">
+        <img src="img4.jpg" onclick="changeImg(this.src)">
+        <img src="img5.jpg" onclick="changeImg(this.src)">
+        <img src="img6.jpg" onclick="changeImg(this.src)">
+        <img src="img7.jpg" onclick="changeImg(this.src)">
+        <img src="img8.jpg" onclick="changeImg(this.src)">
+        <img src="img9.jpg" onclick="changeImg(this.src)">
+        <img src="img10.jpg" onclick="changeImg(this.src)">
+        <img src="img11.jpg" onclick="changeImg(this.src)">
+        <img src="img12.jpg" onclick="changeImg(this.src)">
+        <img src="img13.jpg" onclick="changeImg(this.src)">
+        <img src="img14.jpg" onclick="changeImg(this.src)">
+        <img src="img15.jpg" onclick="changeImg(this.src)">
+        <img src="img16.jpg" onclick="changeImg(this.src)">
+    </div>
+
+    <!-- BUTTONS -->
+    <button class="btn home-btn" onclick="goHome()">🏠 Home</button>
+    <button class="btn share-btn" onclick="shareLink()">📤 Share</button>
+
+</div>
+
+<!-- SOUND -->
+<audio id="sound">
+    <source src="https://www.soundjay.com/buttons/sounds/button-16.mp3">
+</audio>
+
+<script>
+
+let timeLeft = 10;
+
+// TIMER
+let timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time").innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+        clearInterval(timer);
+
+        confetti({
+            particleCount: 300,
+            spread: 150,
+            origin: { y: 0.6 }
+        });
+
+        if (navigator.vibrate) {
+            navigator.vibrate([200,100,200]);
+        }
+    }
+}, 1000);
+
+// CHANGE IMAGE
+function changeImg(src) {
+    document.getElementById("claimedImg").src = src;
+
+    if (navigator.vibrate) {
+        navigator.vibrate([100, 50, 100]);
+    }
+
+    document.getElementById("sound").play();
+
+    confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
+    });
+}
+
+// HOME BUTTON
+function goHome() {
+    window.location.href = "index.html";
+}
+
+// SHARE BUTTON (YOUR LINK ADDED)
+function shareLink() {
+    let url = "https://ravin-cyber.github.io/Gamer-zone/";
+
+    if (navigator.share) {
+        navigator.share({
+            title: "Gamer Zone Reward",
+            text: "I just claimed a reward!",
+            url: url
+        });
+    } else {
+        alert("Copy link: " + url);
+    }
+}
+
+// AUTO LOAD EFFECT
 window.onload = function () {
-    // Blast effect (confetti)
     confetti({
         particleCount: 200,
         spread: 120,
         origin: { y: 0.6 }
     });
 
-    // Extra burst effect
-    setTimeout(() => {
-        confetti({
-            particleCount: 100,
-            angle: 60,
-            spread: 80,
-            origin: { x: 0 }
-        });
-    }, 300);
+    if (navigator.vibrate) {
+        navigator.vibrate(300);
+    }
 
-    setTimeout(() => {
-        confetti({
-            particleCount: 100,
-            angle: 120,
-            spread: 80,
-            origin: { x: 1 }
-        });
-    }, 600);
+    document.getElementById("sound").play();
 };
-  </script>
 
-<body>
-
-
-
-
-<script>
-function changeImg(src) {
-    document.getElementById("claimedImg").src = src;
-}
-</script>
-
-  </body>
-
-<h1>⏳ Processing Reward...</h1>
-<h2 id="timer">5</h2>
-
-<audio id="winsound" src="winsound"></audio>
-
-<script>
-
-let t=5;
-let rewardImg=localStorage.getItem("rewardImg") || "img1.jpg";
-
-let x=setInterval(()=>{
-t--;
-document.getElementById("timer").innerText=t;
-
-if(t==0){
-clearInterval(x);
-
-
-/* 🔊 SOUND */
-document.getElementById("win.mp3").play();
-
-/* 📳 VIBRATION EFFECT */
-if(navigator.vibrate){
-navigator.vibrate([200,100,200,100,400]); 
-}
-
-/* SCREEN */
-document.body.innerHTML=`
-<h1>🎉 Reward Claimed Successfully</h1>
-
-<div class="reward-box">
-<img src="${rewardImg}">
-<div style="color:#00ffcc;margin-top:10px;">Your Claimed Reward Item</div>
-</div>
-
-<div class="quotes">
-“Victory belongs to legends.”<br>
-“Keep playing. Keep winning.”<br>
-“Reward unlocked successfully.”
-</div>
-
-<div class="btns">
-<button class="home" onclick="goHome()">🏠 Home</button>
-<button class="share" onclick="shareSite()">🔗 Share</button>
-</div>
-`;
-
-}
-},1000);
-
-/* HOME */
-function goHome(){
-window.location.href="index.html";
-}
-
-/* SHARE */
-function shareSite(){
-if(navigator.share){
-navigator.share({
-title:"GameZone Rewards",
-text:"Check this awesome reward site!",
-url:window.location.href
-});
-}else{
-alert("Sharing not supported on this device");
-}
-}
 </script>
 
 </body>
-</html>
+            </html>
