@@ -23,9 +23,7 @@ body{
   display:block;
 }
 
-h1{
-  color:#ff0000;
-}
+h1{ color:#ff0000; }
 
 .box{
   background:#1c1c1c;
@@ -62,6 +60,36 @@ input{
   color:#00ff88;
   margin-top:20px;
 }
+
+/* SPIN WHEEL */
+#wheelBox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+#wheel{
+  width:250px;
+  height:250px;
+  border-radius:50%;
+  border:5px solid white;
+  transition:transform 4s ease-out;
+  background:conic-gradient(
+    red 0deg 60deg,
+    black 60deg 120deg,
+    red 120deg 180deg,
+    black 180deg 240deg,
+    red 240deg 300deg,
+    black 300deg 360deg
+  );
+}
 </style>
 </head>
 
@@ -87,15 +115,13 @@ input{
 <p>Bundles</p>
 </div>
 
-<button onclick="go(2)">CLAIM NOW</button>
+<button onclick="openWheel()">CLAIM NOW</button>
 </div>
 
 <!-- PAGE 2 -->
 <div id="page2" class="page">
 <h1>ENTER UID</h1>
-
 <input id="uid" placeholder="Enter Game UID">
-
 <br>
 <button onclick="go(3)">NEXT</button>
 </div>
@@ -103,13 +129,17 @@ input{
 <!-- PAGE 3 -->
 <div id="page3" class="page">
 <h1>SET TIME</h1>
-
 <input type="time">
-
 <br>
 <button onclick="finish()">CONFIRM</button>
-
 <div id="msg" class="success"></div>
+</div>
+
+<!-- SPIN WHEEL -->
+<div id="wheelBox">
+  <h2>Spin & Win 🎁</h2>
+  <div id="wheel"></div>
+  <button onclick="spin()">SPIN</button>
 </div>
 
 <script>
@@ -118,11 +148,28 @@ function go(p){
   document.getElementById('page'+p).classList.add('active');
 }
 
+function openWheel(){
+  document.getElementById('wheelBox').style.display='flex';
+}
+
+function spin(){
+  let wheel = document.getElementById("wheel");
+  let random = Math.floor(Math.random()*3600);
+
+  wheel.style.transform = `rotate(${random}deg)`;
+
+  setTimeout(()=>{
+    document.getElementById('wheelBox').style.display='none';
+    alert("🎉 You won Free Skin Reward!");
+    go(2);
+  },4000);
+}
+
 function finish(){
   document.getElementById("msg").innerHTML =
-  "🎉 Congratulations! You claimed your reward successfully.";
+  "🎉 Congratulations! Reward will be sent soon.";
 }
 </script>
 
 </body>
-</html>
+  </html>
