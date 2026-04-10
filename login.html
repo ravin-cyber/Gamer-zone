@@ -1,68 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GameZone Login</title>
+<title>Gamerzone Login</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
+*{
   margin:0;
+  padding:0;
+  box-sizing:border-box;
   font-family:Arial;
+}
+
+body{
   height:100vh;
+  width:100vw;
   display:flex;
   justify-content:center;
   align-items:center;
-  background: linear-gradient(135deg, red, black);
+  background: url("bg.jpg") no-repeat center center;
+  background-size:cover;
+  overflow:hidden;
   color:white;
 }
 
-/* Login box */
-.box{
-  width:300px;
-  padding:25px;
-  background: rgba(0,0,0,0.6);
-  border:2px solid red;
-  border-radius:15px;
-  box-shadow:0 0 20px red;
-  text-align:center;
+/* dark overlay */
+body::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  z-index:0;
 }
 
-/* Title */
+.login-box{
+  position:relative;
+  z-index:1;
+  width:90%;
+  max-width:360px;
+  padding:25px;
+  background:rgba(0,0,0,0.75);
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 0 15px rgba(0,255,0,0.3);
+}
+
 h2{
   margin-bottom:20px;
-  color:red;
+  color:#00ff66;
 }
 
-/* Inputs */
 input{
-  width:90%;
-  padding:10px;
+  width:100%;
+  padding:12px;
   margin:10px 0;
   border:none;
+  border-radius:8px;
   outline:none;
-  border-radius:5px;
+  font-size:14px;
 }
 
-/* Button */
-button{
-  width:95%;
-  padding:10px;
-  margin-top:10px;
-  background:red;
-  border:none;
+/* bottom NEXT button */
+.next-btn{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:85%;
+  max-width:300px;
+  padding:14px;
+  background:linear-gradient(90deg, #00ff66, #00cc44);
   color:white;
+  border:none;
+  border-radius:10px;
   font-size:16px;
-  border-radius:5px;
   cursor:pointer;
+  z-index:2;
+  box-shadow:0 0 10px rgba(0,255,0,0.4);
 }
 
-button:hover{
-  background:darkred;
-}
-
-/* Small text */
-p{
-  font-size:12px;
-  opacity:0.7;
+.next-btn:hover{
+  transform:translateX(-50%) scale(1.03);
 }
 </style>
 
@@ -70,20 +92,18 @@ p{
 
 <body>
 
-<div class="box">
-  <h2>🎮 GameZone Login</h2>
+<div class="login-box">
+  <h2>Gamerzone Login</h2>
 
   <input type="text" placeholder="Enter Username">
   <input type="password" placeholder="Enter Password">
-
-  <button onclick="login()">Login</button>
-
-  <p>Welcome to Gamer Reward System</p>
 </div>
 
+<!-- NEXT BUTTON -->
+<button class="next-btn" onclick="goNext()">NEXT</button>
+
 <script>
-function login(){
-  // simple redirect to next page (UID page)
+function goNext(){
   window.location.href = "uid.html";
 }
 </script>
