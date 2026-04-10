@@ -2,26 +2,47 @@
 <html>
 <head>
 <title>Processing</title>
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+background:#0b0b0b;
+color:white;
+text-align:center;
+font-family:Arial;
+margin:0;
+padding:0;
+padding-top:100px;
+}
+
+h1{color:#ff3c3c;}
+</style>
 </head>
+
 <body>
 
 <h1>⏳ Processing Reward...</h1>
 
-<h2 id="timer">5</h2>
+  <div class="quotes">
+“Processing your victory...”<br>
+“Great things take time.”<br>
+“Rewards are being prepared for legends.”
+  </div>
 
-<p>Do not close this page</p>
+<h2 id="timer" style="color:#00ffcc;">5</h2>
+
+<p>Do not close the page</p>
 
 <script>
-let t = 5;
-let x = setInterval(() => {
-  t--;
-  document.getElementById("timer").innerText = t;
-  if(t == 0){
-    clearInterval(x);
-    document.body.innerHTML = "<h1>✅ Reward Claimed Successfully (Demo)</h1>";
-  }
-}, 1000);
+let t=5;
+let x=setInterval(()=>{
+t--;
+document.getElementById("timer").innerText=t;
+if(t==0){
+clearInterval(x);
+document.body.innerHTML="<h1>✅ Reward Claimed Successfully (Demo)</h1>";
+}
+},1000);
 </script>
 
 </body>
