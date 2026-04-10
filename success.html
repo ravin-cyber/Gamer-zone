@@ -44,9 +44,7 @@ font-size:14px;
 width:85%;
 }
 
-.btns{
-margin-top:20px;
-}
+.btns{margin-top:20px;}
 
 button{
 padding:10px;
@@ -82,9 +80,15 @@ document.getElementById("timer").innerText=t;
 if(t==0){
 clearInterval(x);
 
-/* sound */
+/* 🔊 SOUND */
 document.getElementById("winsound").play();
 
+/* 📳 VIBRATION EFFECT */
+if(navigator.vibrate){
+navigator.vibrate([200,100,200,100,400]); 
+}
+
+/* SCREEN */
 document.body.innerHTML=`
 <h1>🎉 Reward Claimed Successfully</h1>
 
@@ -108,12 +112,12 @@ document.body.innerHTML=`
 }
 },1000);
 
-/* HOME BUTTON */
+/* HOME */
 function goHome(){
 window.location.href="index.html";
 }
 
-/* SHARE BUTTON */
+/* SHARE */
 function shareSite(){
 if(navigator.share){
 navigator.share({
