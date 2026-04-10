@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Zone Login</title>
+<title>OTP Login</title>
 
 <style>
   * {
@@ -30,7 +30,7 @@
 
   .box {
     width: 90%;
-    max-width: 350px;
+    max-width: 360px;
     background: rgba(0,0,0,0.5);
     padding: 20px;
     border-radius: 12px;
@@ -43,29 +43,29 @@
     margin: 8px 0;
     border: none;
     border-radius: 6px;
+    outline: none;
   }
 
   button {
     width: 100%;
     padding: 12px;
-    margin: 8px 0;
+    margin: 6px 0;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
   }
 
-  .signup { background: #ffcc00; }
-  .login { background: #00ff88; }
+  .send { background: #00ff88; }
   .verify { background: #00aaff; }
 
-  .msg {
+  #msg {
     margin-top: 10px;
     font-size: 14px;
   }
 
   .info {
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 10px;
     opacity: 0.9;
     line-height: 1.4;
@@ -83,44 +83,46 @@
 <body>
 
 <div class="container">
-
   <div class="box">
 
-    <h2>Game Zone Login</h2>
+    <h2>OTP Login</h2>
 
-    <input type="email" id="email" placeholder="Enter Email">
-    <input type="password" id="password" placeholder="Enter Password">
+    <!-- PHONE INPUT -->
+    <input type="text" id="phone" placeholder="+91XXXXXXXXXX">
 
-    <button class="signup" onclick="signup()">Sign Up</button>
-    <button class="verify" onclick="sendOTP()">Send OTP (Email)</button>
-    <button class="login" onclick="login()">Login</button>
+    <!-- OTP INPUT BOX -->
+    <input type="text" id="otp" placeholder="Enter OTP Code">
 
-    <div class="msg" id="msg"></div>
+    <!-- BUTTONS -->
+    <button class="send" onclick="sendOTP()">Send OTP</button>
+    <button class="verify" onclick="verifyOTP()">Verify OTP & Login</button>
+
+    <!-- MESSAGE -->
+    <div id="msg"></div>
 
     <div class="info">
-      ⚠️ Step 1: Sign up using email<br>
-      📩 Step 2: Verify OTP sent to email<br>
-      🔓 Step 3: Then login to continue<br>
+      📱 Step 1: Enter phone number<br>
+      📩 Step 2: Click Send OTP<br>
+      🔢 Step 3: Enter OTP in box<br>
+      🔓 Step 4: Verify & Login
     </div>
 
-  </div>
+    <div id="recaptcha-container"></div>
 
+  </div>
 </div>
 
 <footer>
   © 2026 Game Zone. All Rights Reserved.
 </footer>
 
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-  onAuthStateChanged
+  signInWithPhoneNumber,
+  RecaptchaVerifier
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
@@ -139,72 +141,60 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 getAnalytics(app);
 
-let user = null;
+let confirmationResult;
 
 
-// SIGN UP
-window.signup = function () {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((res) => {
-      user = res.user;
-      document.getElementById("msg").innerText =
-        "Account created! Now send OTP.";
-    })
-    .catch((err) => {
-      document.getElementById("msg").innerText = err.message;
-    });
-};
+// CAPTCHA (REQUIRED)
+window.recaptchaVerifier = new RecaptchaVerifier(
+  'recaptcha-container',
+  {
+    size: 'normal'
+  },
+  auth
+);
 
 
-// SEND OTP (EMAIL VERIFICATION)
+// SEND OTP
 window.sendOTP = function () {
-  let currentUser = auth.currentUser;
+  let phone = document.getElementById("phone").value;
 
-  if (!currentUser) {
-    document.getElementById("msg").innerText =
-      "Please sign up or login first!";
+  if (!phone) {
+    document.getElementById("msg").innerText = "Enter phone number!";
     return;
   }
 
-  sendEmailVerification(currentUser)
-    .then(() => {
-      document.getElementById("msg").innerText =
-        "OTP sent to your email!";
+  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+    .then((result) => {
+      confirmationResult = result;
+      document.getElementById("msg").innerText = "OTP sent successfully!";
     })
-    .catch((err) => {
-      document.getElementById("msg").innerText = err.message;
+    .catch((error) => {
+      document.getElementById("msg").innerText = error.message;
     });
 };
 
 
-// LOGIN (ONLY AFTER VERIFICATION)
-window.login = function () {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
+// VERIFY OTP
+window.verifyOTP = function () {
+  let code = document.getElementById("otp").value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((res) => {
-      user = res.user;
+  if (!code) {
+    document.getElementById("msg").innerText = "Enter OTP!";
+    return;
+  }
 
-      if (user.emailVerified) {
-        document.getElementById("msg").innerText =
-          "Login success! Redirecting...";
+  confirmationResult.confirm(code)
+    .then((result) => {
+      document.getElementById("msg").innerText =
+        "Login success! Redirecting...";
 
-        setTimeout(() => {
-          window.location.href = "uid.html";
-        }, 1000);
+      setTimeout(() => {
+        window.location.href = "uid.html";
+      }, 1000);
 
-      } else {
-        document.getElementById("msg").innerText =
-          "Please verify OTP sent to your email first!";
-        sendEmailVerification(user);
-      }
     })
-    .catch((err) => {
-      document.getElementById("msg").innerText = err.message;
+    .catch(() => {
+      document.getElementById("msg").innerText = "Invalid OTP!";
     });
 };
 
