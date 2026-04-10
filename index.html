@@ -1,235 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Gamerzone</title>
-
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0a0a0a;
-  color:white;
-}
-
-/* TOP BAR (FF STYLE INSPIRED) */
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 15px;
-  background:linear-gradient(90deg,#ff3c00,#ff0000);
-  position:sticky;
-  top:0;
-}
-
-.logo{
-  font-weight:bold;
-  font-size:18px;
-}
-
-.menu{
-  font-size:22px;
-}
-
-.page{
-  display:none;
-  padding:15px;
-  text-align:center;
-}
-
-.active{display:block;}
-
-.hero{
-  background:linear-gradient(180deg,#1a1a1a,#000);
-  padding:15px;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-h1{
-  color:#ff3c00;
-  margin:10px 0;
-}
-
-p{color:#ccc;}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:15px;
-}
-
-.card{
-  background:#151515;
-  border:1px solid #2a2a2a;
-  border-radius:12px;
-  overflow:hidden;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:scale(1.03);
-  border-color:#ff3c00;
-}
-
-.card img{
-  width:100%;
-  height:120px;
-  object-fit:cover;
-}
-
-.card p{
-  padding:8px;
-  font-size:14px;
-}
-
-button{
-  padding:12px;
-  width:80%;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(90deg,#ff3c00,#ff0000);
-  color:white;
-  font-size:16px;
-  margin-top:15px;
-}
-
-input{
-  padding:12px;
-  width:80%;
-  margin-top:10px;
-  border-radius:8px;
-  border:none;
-  outline:none;
-}
-
-.success{
-  color:#00ff88;
-  margin-top:20px;
-}
-
-/* SPIN WHEEL */
-#wheelBox{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.95);
-  display:none;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
-
-#wheel{
-  width:260px;
-  height:260px;
-  border-radius:50%;
-  border:6px solid #ff3c00;
-  transition:transform 4s ease-out;
-  background:conic-gradient(
-    #ff3c00 0deg 60deg,
-    #111 60deg 120deg,
-    #ff3c00 120deg 180deg,
-    #111 180deg 240deg,
-    #ff3c00 240deg 300deg,
-    #111 300deg 360deg
-  );
-}
-
-.pointer{
-  width:0;
-  height:0;
-  border-left:15px solid transparent;
-  border-right:15px solid transparent;
-  border-bottom:25px solid #fff;
-  margin-bottom:10px;
-}
-</style>
+<title>GameZone Rewards</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="logo">GAMERZONE</div>
-  <div class="menu">☰</div>
-</div>
-
-<!-- PAGE 1 -->
-<div id="p1" class="page active">
-
-<div class="hero">
-  <h1>FREE REWARDS HUB</h1>
-  <p>Claim Gun Skins, Emotes & Bundles instantly</p>
-</div>
+<h1>🔥 Gun Skins Rewards</h1>
 
 <div class="grid">
-  <div class="card"><img src="https://i.imgur.com/3ZQ3ZQm.jpg"><p>Gun Skin</p></div>
-  <div class="card"><img src="https://i.imgur.com/2yYayZk.jpg"><p>Emote</p></div>
-  <div class="card"><img src="https://i.imgur.com/7yUvePI.jpg"><p>Bundle</p></div>
-  <div class="card"><img src="https://i.imgur.com/8Km9tLL.jpg"><p>Loot Crate</p></div>
+
+<div class="card">
+<img src="img1.jpg">
+<p>AK47 - Dragon Fire</p>
+<button onclick="location.href='uid.html'">Claim Now</button>
 </div>
 
-<button onclick="openWheel()">START CLAIM</button>
+<div class="card">
+<img src="img2.jpg">
+<p>M4A1 - Ice Storm</p>
+<button onclick="location.href='uid.html'">Claim Now</button>
 </div>
 
-<!-- PAGE 2 -->
-<div id="p2" class="page">
-<h1>ENTER UID</h1>
-<input id="uid" placeholder="Game UID"/>
-<br>
-<button onclick="go(3)">NEXT</button>
+<div class="card"><img src="img3.jpg"><p>UMP - Neon Blaze</p><button onclick="location.href='uid.html'">Claim Now</button></div>
+<div class="card"><img src="img4.jpg"><p>AWM - Royal Skull</p><button onclick="location.href='uid.html'">Claim Now</button></div>
+<div class="card"><img src="img5.jpg"><p>MP40 - Gold Rush</p><button onclick="location.href='uid.html'">Claim Now</button></div>
+<div class="card"><img src="img6.jpg"><p>Scar - Red Venom</p><button onclick="location.href='uid.html'">Claim Now</button></div>
+<div class="card"><img src="img7.jpg"><p>Groza - Thunder Core</p><button onclick="location.href='uid.html'">Claim Now</button></div>
+<div class="card"><img src="img8.jpg"><p>Famas - Cyber Wave</p><button onclick="location.href='uid.html'">Claim Now</button></div>
+
 </div>
 
-<!-- PAGE 3 -->
-<div id="p3" class="page">
-<h1>SET DELIVERY TIME</h1>
-<input type="time"/>
-<br>
-<button onclick="finish()">CONFIRM</button>
-<div id="msg" class="success"></div>
+<div class="nav">
+<a href="page2.html">Next Page ➜ Bundles</a>
 </div>
-
-<!-- SPIN WHEEL -->
-<div id="wheelBox">
-  <h2>SPIN TO WIN 🎁</h2>
-  <div class="pointer"></div>
-  <div id="wheel"></div>
-  <button onclick="spin()">SPIN</button>
-</div>
-
-<script>
-function go(p){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.getElementById('p'+p).classList.add('active');
-}
-
-function openWheel(){
-  document.getElementById('wheelBox').style.display='flex';
-}
-
-function spin(){
-  let wheel=document.getElementById("wheel");
-  let r=Math.floor(Math.random()*3600);
-  wheel.style.transform=`rotate(${r}deg)`;
-
-  setTimeout(()=>{
-    document.getElementById('wheelBox').style.display='none';
-    alert("🎉 Reward Unlocked!");
-    go(2);
-  },4000);
-}
-
-function finish(){
-  document.getElementById("msg").innerHTML="🎉 Congratulations! Reward will be delivered soon.";
-}
-</script>
 
 </body>
-  </html>
+</html>
   
