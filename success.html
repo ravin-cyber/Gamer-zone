@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Success Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Success | Gamer Zone</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -10,25 +11,42 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: #0f0f0f;
+    background: #0d0d0d;
     color: white;
     text-align: center;
 }
 
+/* FULL SCREEN CONTAINER */
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* HEADER */
+.header {
+    padding: 10px;
+    background: #111;
+    font-size: 14px;
+    color: gold;
+}
+
+/* DIALOGUE */
+.dialogue {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #ccc;
+}
+
 /* TIMER */
 .timer {
-    font-size: 20px;
-    margin-top: 10px;
+    margin: 10px;
+    font-size: 18px;
     color: gold;
-    font-weight: bold;
 }
 
-/* SUCCESS BOX */
-.success-box {
-    padding: 20px;
-}
-
-/* BIG IMAGE */
+/* IMAGE BOX */
 .image-box {
     width: 220px;
     height: 220px;
@@ -51,7 +69,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     width: 90%;
-    margin: 20px auto;
+    margin: auto;
 }
 
 .gallery img {
@@ -63,53 +81,66 @@ body {
 
 .gallery img:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 10px gold;
 }
 
 /* BUTTONS */
 .btn {
-    display: inline-block;
     padding: 10px 15px;
-    margin: 10px;
+    margin: 8px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     font-weight: bold;
 }
 
-.home-btn {
-    background: green;
-    color: white;
-}
+.home { background: green; color: white; }
+.share { background: blue; color: white; }
 
-.share-btn {
-    background: blue;
-    color: white;
+/* FOOTER */
+.footer {
+    background: #111;
+    padding: 10px;
+    font-size: 12px;
+    color: #aaa;
 }
 </style>
 </head>
 
 <body>
 
-<div class="success-box">
+<div class="container">
 
-    <h2>🎉 Claim Successful!</h2>
+    <!-- HEADER -->
+    <div class="header">
+        ⭐ OFFICIAL GAMER ZONE REWARDS SITE ⭐
+    </div>
+
+    <!-- DIALOGUE -->
+    <div class="dialogue">
+        🎮 Congratulations! You successfully claimed your reward.
+    </div>
 
     <!-- TIMER -->
     <div class="timer">
-        ⏳ Time Left: <span id="time">10</span>s
+        ⏳ Auto verification in: <span id="time">10</span>s
     </div>
 
-    <!-- BIG IMAGE -->
+    <!-- MAIN IMAGE -->
     <div class="image-box">
         <img id="claimedImg" src="img17.jpg">
     </div>
 
 
-
     <!-- BUTTONS -->
-    <button class="btn home-btn" onclick="goHome()">🏠 Home</button>
-    <button class="btn share-btn" onclick="shareLink()">📤 Share</button>
+    <div>
+        <button class="btn home" onclick="goHome()">🏠 Home</button>
+        <button class="btn share" onclick="shareLink()">📤 Share</button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © 2026 Gamer Zone. All Rights Reserved. | Official Site from garena.
+    </div>
 
 </div>
 
@@ -132,7 +163,7 @@ let timer = setInterval(() => {
 
         confetti({
             particleCount: 300,
-            spread: 150,
+            spread: 160,
             origin: { y: 0.6 }
         });
 
@@ -159,19 +190,19 @@ function changeImg(src) {
     });
 }
 
-// HOME BUTTON
+// HOME
 function goHome() {
     window.location.href = "index.html";
 }
 
-// SHARE BUTTON (YOUR LINK ADDED)
+// SHARE (YOUR OFFICIAL SITE)
 function shareLink() {
     let url = "https://ravin-cyber.github.io/Gamer-zone/";
 
     if (navigator.share) {
         navigator.share({
-            title: "Gamer Zone Reward",
-            text: "I just claimed a reward!",
+            title: "Gamer Zone Official Reward",
+            text: "I just claimed a reward on Gamer Zone!",
             url: url
         });
     } else {
@@ -179,7 +210,7 @@ function shareLink() {
     }
 }
 
-// AUTO LOAD EFFECT
+// LOAD EFFECT
 window.onload = function () {
     confetti({
         particleCount: 200,
@@ -197,4 +228,4 @@ window.onload = function () {
 </script>
 
 </body>
-            </html>
+</html>
