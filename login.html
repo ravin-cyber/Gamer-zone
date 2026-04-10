@@ -1,73 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Secure Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Zone Login</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: linear-gradient(135deg, #ff0000, #8b0000);
-      color: white;
-      text-align: center;
-      padding-top: 60px;
-    }
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+  }
 
-    .box {
-      background: rgba(0,0,0,0.5);
-      padding: 20px;
-      width: 320px;
-      margin: auto;
-      border-radius: 12px;
-    }
+  body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ff0000, #8b0000);
+    color: white;
+  }
 
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 6px;
-    }
+  .container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    button {
-      width: 95%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+  .box {
+    width: 90%;
+    max-width: 350px;
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+  }
 
-    .signup { background: #ffcc00; }
-    .login { background: #00ff88; }
-    .verify { background: #00aaff; }
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+  }
 
-    #msg {
-      margin-top: 10px;
-      font-size: 14px;
-    }
-  </style>
+  button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .signup { background: #ffcc00; }
+  .login { background: #00ff88; }
+  .verify { background: #00aaff; }
+
+  .msg {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .info {
+    font-size: 13px;
+    margin-top: 10px;
+    opacity: 0.9;
+    line-height: 1.4;
+  }
+
+  footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    background: rgba(0,0,0,0.4);
+  }
+</style>
 </head>
 
 <body>
 
-<h2>Secure Login System</h2>
+<div class="container">
 
-<div class="box">
+  <div class="box">
 
-  <input type="email" id="email" placeholder="Enter Email">
-  <input type="password" id="password" placeholder="Enter Password">
+    <h2>Game Zone Login</h2>
 
-  <button class="signup" onclick="signup()">Sign Up</button>
-  <button class="login" onclick="login()">Login</button>
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
 
-  <button class="verify" onclick="verifyEmail()">Send Email OTP</button>
+    <button class="signup" onclick="signup()">Sign Up</button>
+    <button class="verify" onclick="sendOTP()">Send OTP (Email)</button>
+    <button class="login" onclick="login()">Login</button>
 
-  <p id="msg"></p>
+    <div class="msg" id="msg"></div>
+
+    <div class="info">
+      ⚠️ Step 1: Sign up using email<br>
+      📩 Step 2: Verify OTP sent to email<br>
+      🔓 Step 3: Then login to continue<br>
+    </div>
+
+  </div>
 
 </div>
+
+<footer>
+  © 2026 Game Zone. All Rights Reserved.
+</footer>
+
 
 <script type="module">
 
@@ -82,8 +125,6 @@ import {
 
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 
-
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBBblC_ucasWx0FcMcz2SEyIYxJrMMNEmw",
   authDomain: "game-zone-24df2.firebaseapp.com",
@@ -98,7 +139,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 getAnalytics(app);
 
-let currentUser = null;
+let user = null;
 
 
 // SIGN UP
@@ -107,67 +148,65 @@ window.signup = function () {
   let password = document.getElementById("password").value;
 
   createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      currentUser = userCredential.user;
-      document.getElementById("msg").innerText = "Account created!";
+    .then((res) => {
+      user = res.user;
+      document.getElementById("msg").innerText =
+        "Account created! Now send OTP.";
     })
-    .catch((error) => {
-      document.getElementById("msg").innerText = error.message;
+    .catch((err) => {
+      document.getElementById("msg").innerText = err.message;
     });
 };
 
 
-// LOGIN
+// SEND OTP (EMAIL VERIFICATION)
+window.sendOTP = function () {
+  let currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    document.getElementById("msg").innerText =
+      "Please sign up or login first!";
+    return;
+  }
+
+  sendEmailVerification(currentUser)
+    .then(() => {
+      document.getElementById("msg").innerText =
+        "OTP sent to your email!";
+    })
+    .catch((err) => {
+      document.getElementById("msg").innerText = err.message;
+    });
+};
+
+
+// LOGIN (ONLY AFTER VERIFICATION)
 window.login = function () {
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      currentUser = userCredential.user;
+    .then((res) => {
+      user = res.user;
 
-      if (currentUser.emailVerified) {
-        document.getElementById("msg").innerText = "Login success!";
+      if (user.emailVerified) {
+        document.getElementById("msg").innerText =
+          "Login success! Redirecting...";
+
         setTimeout(() => {
           window.location.href = "uid.html";
         }, 1000);
+
       } else {
         document.getElementById("msg").innerText =
-          "Please verify your email first (OTP sent)";
-        sendEmailVerification(currentUser);
+          "Please verify OTP sent to your email first!";
+        sendEmailVerification(user);
       }
     })
-    .catch((error) => {
-      document.getElementById("msg").innerText = error.message;
+    .catch((err) => {
+      document.getElementById("msg").innerText = err.message;
     });
 };
-
-
-// SEND EMAIL OTP (VERIFICATION LINK)
-window.verifyEmail = function () {
-  let user = auth.currentUser;
-
-  if (user) {
-    sendEmailVerification(user)
-      .then(() => {
-        document.getElementById("msg").innerText =
-          "Verification email sent!";
-      })
-      .catch((error) => {
-        document.getElementById("msg").innerText = error.message;
-      });
-  } else {
-    document.getElementById("msg").innerText = "Login first!";
-  }
-};
-
-
-// CHECK LOGIN STATE
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    currentUser = user;
-  }
-});
 
 </script>
 
