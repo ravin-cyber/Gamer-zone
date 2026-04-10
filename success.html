@@ -17,12 +17,8 @@ overflow:hidden;
 
 h1{color:#ff3c3c;}
 
-#timer{
-color:#00ffcc;
-font-size:30px;
-}
+#timer{color:#00ffcc;font-size:30px;}
 
-/* ⭐ IMAGE BOX (IMPROVED) */
 .reward-box{
 margin:20px auto;
 width:85%;
@@ -38,13 +34,6 @@ border-radius:12px;
 border:2px solid #ff3c3c;
 }
 
-.reward-title{
-color:#00ffcc;
-margin-top:10px;
-font-size:14px;
-}
-
-/* Quotes */
 .quotes{
 margin:15px auto;
 background:#111;
@@ -55,7 +44,6 @@ font-size:14px;
 width:85%;
 }
 
-/* Buttons */
 .btns{
 margin-top:20px;
 }
@@ -80,7 +68,10 @@ font-size:14px;
 <h1>⏳ Processing Reward...</h1>
 <h2 id="timer">5</h2>
 
+<audio id="winsound" src="win.mp3"></audio>
+
 <script>
+
 let t=5;
 let rewardImg=localStorage.getItem("rewardImg") || "img1.jpg";
 
@@ -91,54 +82,47 @@ document.getElementById("timer").innerText=t;
 if(t==0){
 clearInterval(x);
 
+/* sound */
+document.getElementById("winsound").play();
+
 document.body.innerHTML=`
 <h1>🎉 Reward Claimed Successfully</h1>
 
-<!-- ⭐ IMAGE IN BOX -->
 <div class="reward-box">
 <img src="${rewardImg}">
-<div class="reward-title">Your Claimed Reward Item</div>
+<div style="color:#00ffcc;margin-top:10px;">Your Claimed Reward Item</div>
 </div>
 
 <div class="quotes">
 “Victory belongs to legends.”<br>
 “Keep playing. Keep winning.”<br>
-“Your reward is ready.”
+“Reward unlocked successfully.”
 </div>
 
 <div class="btns">
-<button class="home" onclick="location.href='index.html'">🏠 Home</button>
-<button class="share" onclick="shareSite()">🔗https://ravin-cyber.github.io/Gamer-zone/index.html share</button>
+<button class="home" onclick="goHome()">🏠 Home</button>
+<button class="share" onclick="shareSite()">🔗 Share</button>
 </div>
 `;
-
-/* blast effect */
-let blast=document.createElement("div");
-blast.style.cssText="position:fixed;top:50%;left:50%;width:10px;height:10px;background:red;border-radius:50%;transform:translate(-50%,-50%);animation:boom 1s forwards;";
-document.body.appendChild(blast);
-
-/* animation */
-let style=document.createElement("style");
-style.innerHTML=`
-@keyframes boom{
-0%{transform:translate(-50%,-50%) scale(1);opacity:1;}
-100%{transform:translate(-50%,-50%) scale(50);opacity:0;}
-}`;
-document.head.appendChild(style);
 
 }
 },1000);
 
-/* SHARE */
+/* HOME BUTTON */
+function goHome(){
+window.location.href="index.html";
+}
+
+/* SHARE BUTTON */
 function shareSite(){
 if(navigator.share){
 navigator.share({
 title:"GameZone Rewards",
-text:"Check out this awesome reward site!",
+text:"Check this awesome reward site!",
 url:window.location.href
 });
 }else{
-alert("Sharing not supported");
+alert("Sharing not supported on this device");
 }
 }
 </script>
