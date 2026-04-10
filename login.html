@@ -1,169 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Gamer Zone Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Secure Login</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(135deg, #ff0000, #8b0000);
+      color: white;
+      text-align: center;
+      padding-top: 60px;
+    }
 
-<style>
-body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #8B0000, #000000);
-  font-family: Arial, sans-serif;
-  color: white;
-  text-align: center;
-}
+    .box {
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      width: 320px;
+      margin: auto;
+      border-radius: 12px;
+    }
 
-.container {
-  margin-top: 70px;
-  padding: 20px;
-}
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+    }
 
-h1 {
-  font-size: 28px;
-}
+    button {
+      width: 95%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-p {
-  font-size: 14px;
-  opacity: 0.8;
-}
+    .signup { background: #ffcc00; }
+    .login { background: #00ff88; }
+    .verify { background: #00aaff; }
 
-input {
-  width: 85%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-}
-
-button {
-  width: 90%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  background: gold;
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: orange;
-}
-
-.dialogue {
-  margin-top: 20px;
-  font-size: 13px;
-  opacity: 0.7;
-}
-
-.footer {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  font-size: 12px;
-  opacity: 0.6;
-}
-</style>
+    #msg {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>🎮 Gamer Zone</h1>
-  <p>Sign up & verify with OTP</p>
+<h2>Secure Login System</h2>
+
+<div class="box">
 
   <input type="email" id="email" placeholder="Enter Email">
   <input type="password" id="password" placeholder="Enter Password">
 
-  <button onclick="sendOTP()">Sign Up & Send OTP</button>
+  <button class="signup" onclick="signup()">Sign Up</button>
+  <button class="login" onclick="login()">Login</button>
 
-  <input type="text" id="otp" placeholder="Enter OTP">
-  <button onclick="verifyOTP()">Verify OTP</button>
+  <button class="verify" onclick="verifyEmail()">Send Email OTP</button>
 
-  <button onclick="login()">Login</button>
+  <p id="msg"></p>
 
-  <div class="dialogue">
-    💬 "Victory begins with a login — claim your rewards now!"
-  </div>
 </div>
 
-<div class="footer">
-  © 2026 Gamer Zone | All Rights Reserved
-</div>
+<script type="module">
 
-<script>
-const supabase = window.supabase.createClient(
-  "https://jetwvplkvkwkcetqswcj.supabase.co",
-  "sb_publishable_vGeRfzqFeohO7ikkgfCD_g_Yu0ZC05I"
-);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// 📩 Send OTP
-async function sendOTP() {
-  const email = document.getElementById("email").value;
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 
-  if (!email) {
-    alert("Enter email");
-    return;
-  }
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email: email
-  });
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBBblC_ucasWx0FcMcz2SEyIYxJrMMNEmw",
+  authDomain: "game-zone-24df2.firebaseapp.com",
+  projectId: "game-zone-24df2",
+  storageBucket: "game-zone-24df2.appspot.com",
+  messagingSenderId: "808747398959",
+  appId: "1:808747398959:web:107c04c3544a88048413da",
+  measurementId: "G-67CF0JJ7T6"
+};
 
-  if (error) {
-    alert("❌ " + error.message);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+getAnalytics(app);
+
+let currentUser = null;
+
+
+// SIGN UP
+window.signup = function () {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      currentUser = userCredential.user;
+      document.getElementById("msg").innerText = "Account created!";
+    })
+    .catch((error) => {
+      document.getElementById("msg").innerText = error.message;
+    });
+};
+
+
+// LOGIN
+window.login = function () {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      currentUser = userCredential.user;
+
+      if (currentUser.emailVerified) {
+        document.getElementById("msg").innerText = "Login success!";
+        setTimeout(() => {
+          window.location.href = "uid.html";
+        }, 1000);
+      } else {
+        document.getElementById("msg").innerText =
+          "Please verify your email first (OTP sent)";
+        sendEmailVerification(currentUser);
+      }
+    })
+    .catch((error) => {
+      document.getElementById("msg").innerText = error.message;
+    });
+};
+
+
+// SEND EMAIL OTP (VERIFICATION LINK)
+window.verifyEmail = function () {
+  let user = auth.currentUser;
+
+  if (user) {
+    sendEmailVerification(user)
+      .then(() => {
+        document.getElementById("msg").innerText =
+          "Verification email sent!";
+      })
+      .catch((error) => {
+        document.getElementById("msg").innerText = error.message;
+      });
   } else {
-    alert("✅ OTP sent to your email");
+    document.getElementById("msg").innerText = "Login first!";
   }
-}
+};
 
-// 🔐 Verify OTP
-async function verifyOTP() {
-  const email = document.getElementById("email").value;
-  const otp = document.getElementById("otp").value;
 
-  if (!otp) {
-    alert("Enter OTP");
-    return;
+// CHECK LOGIN STATE
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser = user;
   }
+});
 
-  const { error } = await supabase.auth.verifyOtp({
-    email: email,
-    token: otp,
-    type: "email"
-  });
-
-  if (error) {
-    alert("❌ " + error.message);
-  } else {
-    alert("🎉 Email verified successfully!");
-  }
-}
-
-// 🔑 Login with password
-async function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
-
-  if (error) {
-    alert("❌ " + error.message);
-  } else {
-    alert("🎉 Login successful!");
-    window.location.href = "uid.html";
-  }
-}
 </script>
 
 </body>
