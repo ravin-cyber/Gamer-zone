@@ -11,12 +11,11 @@ color:white;
 text-align:center;
 font-family:Arial;
 margin:0;
-padding:0;
 }
 
 h2{
 color:#ff3c3c;
-margin-top:40px;
+margin-top:30px;
 }
 
 .box{
@@ -24,21 +23,22 @@ background:#1c1c1c;
 margin:20px;
 padding:20px;
 border-radius:10px;
-box-shadow:0 0 10px rgba(255,60,60,0.5);
+box-shadow:0 0 10px rgba(255,60,60,0.4);
 }
 
 input{
 width:90%;
 padding:12px;
-margin:10px;
+margin:8px;
 border:none;
 border-radius:5px;
-font-size:16px;
+font-size:15px;
 }
 
 button{
 width:95%;
 padding:12px;
+margin-top:10px;
 background:#ff3c3c;
 color:white;
 border:none;
@@ -58,9 +58,17 @@ background:#ff1f1f;
 <h2>🔥 Login to Claim Reward</h2>
 
 <div class="box">
-<input type="email" id="email" placeholder="Enter your email">
+
+<input type="email" id="email" placeholder="Enter Gmail">
+
+<input type="password" placeholder="Enter Password (optional)">
 
 <button onclick="sendOTP()">Send OTP</button>
+
+<input type="text" id="otp" placeholder="Enter OTP">
+
+<button onclick="verifyOTP()">Verify & Continue</button>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
@@ -68,7 +76,7 @@ background:#ff1f1f;
 <script>
 const supabaseClient = supabase.createClient(
   "https://jetwvplkvkwkcetqswcj.supabase.co",
-  "sb_publishable_vGeRfzqFeohO7ikkgfCD_g_Yu0ZC05I"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtdHJueHRvZ3phaGV4eHVoam1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4MTY3NDcsImV4cCI6MjA5MTM5Mjc0N30.wrYgiSRTPq_QVOWg-cd29XKT-TPuxrMwFRznq84h_ks"
 );
 
 async function sendOTP() {
@@ -86,7 +94,30 @@ async function sendOTP() {
   if (error) {
     alert("Error: " + error.message);
   } else {
-    alert("OTP sent! Check your email 📩");
+    alert("OTP sent! Check email 📩");
+  }
+}
+
+async function verifyOTP() {
+  const email = document.getElementById("email").value;
+  const otp = document.getElementById("otp").value;
+
+  if (!otp) {
+    alert("Enter OTP!");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.verifyOtp({
+    email: email,
+    token: otp,
+    type: "email"
+  });
+
+  if (error) {
+    alert("Invalid OTP ❌");
+  } else {
+    alert("Login successful ✅");
+    window.location.href = "uid.html";
   }
 }
 </script>
