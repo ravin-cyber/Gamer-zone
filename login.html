@@ -13,19 +13,17 @@
   font-family:Arial;
 }
 
+/* SAME BACKGROUND STYLE AS FIRST PAGE */
 body{
   height:100vh;
   width:100vw;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background: url("bg.jpg") no-repeat center center;
+  background: url("bg.jpg") no-repeat center center fixed;
   background-size:cover;
   overflow:hidden;
   color:white;
 }
 
-/* dark overlay */
+/* DARK OVERLAY (same feel as index page) */
 body::before{
   content:"";
   position:absolute;
@@ -37,16 +35,18 @@ body::before{
   z-index:0;
 }
 
+/* CENTER BOX */
 .login-box{
   position:relative;
   z-index:1;
   width:90%;
   max-width:360px;
+  margin:120px auto 0;
   padding:25px;
-  background:rgba(0,0,0,0.75);
+  background:rgba(0,0,0,0.7);
   border-radius:15px;
   text-align:center;
-  box-shadow:0 0 15px rgba(0,255,0,0.3);
+  box-shadow:0 0 15px rgba(0,255,0,0.2);
 }
 
 h2{
@@ -64,14 +64,14 @@ input{
   font-size:14px;
 }
 
-/* bottom NEXT button */
+/* NEXT BUTTON (BOTTOM FIXED) */
 .next-btn{
   position:fixed;
   bottom:20px;
   left:50%;
   transform:translateX(-50%);
   width:85%;
-  max-width:300px;
+  max-width:320px;
   padding:14px;
   background:linear-gradient(90deg, #00ff66, #00cc44);
   color:white;
