@@ -1,162 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Gamer zone Login</title>
+  <title>Gamer Zone Login</title>
 
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial;
-  }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
 
-  body {
-    height: 100vh;
-    background: url("background.jpg") no-repeat center center/cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+      /* 🔴 REPLACE THIS WITH YOUR INDEX BACKGROUND */
+      background: red;
+      background-size: cover;
+      background-position: center;
 
-  .box {
-    width: 90%;
-    max-width: 350px;
-    background: rgba(0,0,0,0.6);
-    padding: 20px;
-    border-radius: 12px;
-    color: white;
-    text-align: center;
-  }
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-  input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 6px;
-  }
+    /* LOGIN BOX */
+    .box {
+      background: rgba(255,255,255,0.92);
+      padding: 25px;
+      border-radius: 12px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    }
 
-  button {
-    width: 100%;
-    padding: 12px;
-    margin: 6px 0;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+    h1 {
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 0 0 5px black;
+    }
 
-  .signup { background: #ffcc00; }
-  .login { background: #00ff88; }
-  .otp { background: #00aaff; }
+    h2 {
+      margin-bottom: 15px;
+    }
 
-  #msg {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-</style>
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
+    /* FOOTER */
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      text-align: center;
+      color: white;
+      font-size: 12px;
+      text-shadow: 0 0 3px black;
+    }
+
+    .links {
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .links a {
+      color: blue;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+
+    /* POPUP */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .popup-content button {
+      margin-top: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="box">
+<h1>🎮 Gamer Zone Login</h1>
 
-  <h2>Gamer zone Login</h2>
+<div class="box">
+  <h2>Login</h2>
 
   <input type="email" id="email" placeholder="Enter Email">
   <input type="password" id="password" placeholder="Enter Password">
 
-  <button class="signup" onclick="signup()">Sign Up</button>
-  <button class="login" onclick="login()">Login</button>
-  <button class="otp" onclick="sendOTP()">Send Email OTP</button>
+  <button onclick="login()">Login</button>
 
-  <p id="msg"></p>
-
+  <div class="links">
+    <a onclick="openPolicy()">Privacy Policy</a>
+  </div>
 </div>
 
-<script type="module">
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 Gamer Zone. All Rights Reserved.GARENA OFFICIAL
+</div>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendEmailVerification
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<!-- PRIVACY POLICY POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3>Privacy Policy</h3>
+    <p>
+      We respect your privacy. Your login data is stored securely
+      for game access only and will not be shared with third parties.
+    </p>
+    <button onclick="closePolicy()">Close</button>
+  </div>
+</div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBBblC_ucasWx0FcMcz2SEyIYxJrMMNEmw",
-  authDomain: "game-zone-24df2.firebaseapp.com",
-  projectId: "game-zone-24df2",
-  storageBucket: "game-zone-24df2.appspot.com",
-  messagingSenderId: "808747398959",
-  appId: "1:808747398959:web:107c04c3544a88048413da"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-
-// SIGN UP
-window.signup = function () {
+<script>
+function login() {
   let email = document.getElementById("email").value;
   let password = document.getElementById("password").value;
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      document.getElementById("msg").innerText = "Account created!";
-    })
-    .catch(err => {
-      document.getElementById("msg").innerText = err.message;
-    });
-};
-
-
-// LOGIN
-window.login = function () {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      let user = userCredential.user;
-
-      if (user.emailVerified) {
-        document.getElementById("msg").innerText = "Login success!";
-        setTimeout(() => {
-          window.location.href = "uid.html";
-        }, 1000);
-      } else {
-        document.getElementById("msg").innerText =
-          "Please verify OTP sent to email";
-        sendEmailVerification(user);
-      }
-    })
-    .catch(err => {
-      document.getElementById("msg").innerText = err.message;
-    });
-};
-
-
-// SEND OTP (EMAIL VERIFICATION LINK)
-window.sendOTP = function () {
-  let user = auth.currentUser;
-
-  if (user) {
-    sendEmailVerification(user)
-      .then(() => {
-        document.getElementById("msg").innerText =
-          "OTP sent to email!";
-      });
-  } else {
-    document.getElementById("msg").innerText =
-      "Login first!";
+  if (!email || !password) {
+    alert("Please fill all fields");
+    return;
   }
-};
 
+  // local storage only (no backend)
+  localStorage.setItem("email", email);
+
+  alert("Login Successful!");
+  window.location.href = "uid.html";
+}
+
+function openPolicy() {
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePolicy() {
+  document.getElementById("popup").style.display = "none";
+}
 </script>
 
 </body>
