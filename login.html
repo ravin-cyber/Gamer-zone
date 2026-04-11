@@ -4,40 +4,48 @@
   <title>Gamer Zone Login</title>
 
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: Arial, sans-serif;
+    }
 
-      /* 🔴 REPLACE THIS WITH YOUR INDEX BACKGROUND */
-      background: red;
-      background-size: cover;
-      background-position: center;
-
+    /* 🔴 FULL SCREEN RED + WHITE GAMING BACKGROUND */
+    body {
       height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+
+      background: linear-gradient(135deg, red 50%, white 50%);
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      position: relative;
+    }
+
+    /* TITLE */
+    h1 {
+      position: absolute;
+      top: 20px;
+      color: white;
+      text-shadow: 0 0 8px black;
+      font-size: 26px;
     }
 
     /* LOGIN BOX */
     .box {
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.95);
       padding: 25px;
       border-radius: 12px;
       width: 320px;
       text-align: center;
-      box-shadow: 0 0 12px rgba(0,0,0,0.3);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
 
-    h1 {
-      color: white;
-      margin-bottom: 20px;
-      text-shadow: 0 0 5px black;
-    }
-
-    h2 {
+    .box h2 {
       margin-bottom: 15px;
+      color: black;
     }
 
     input {
@@ -63,25 +71,24 @@
       background: #333;
     }
 
-    /* FOOTER */
-    .footer {
-      position: absolute;
-      bottom: 10px;
-      text-align: center;
-      color: white;
-      font-size: 12px;
-      text-shadow: 0 0 3px black;
-    }
-
+    /* LINKS */
     .links {
       margin-top: 10px;
       font-size: 12px;
     }
 
     .links a {
-      color: blue;
+      color: red;
       cursor: pointer;
-      margin: 0 5px;
+      font-weight: bold;
+    }
+
+    /* FOOTER */
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      color: black;
+      font-size: 12px;
     }
 
     /* POPUP */
@@ -92,7 +99,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.6);
       justify-content: center;
       align-items: center;
     }
@@ -100,13 +107,9 @@
     .popup-content {
       background: white;
       padding: 20px;
-      width: 300px;
       border-radius: 10px;
+      width: 300px;
       text-align: center;
-    }
-
-    .popup-content button {
-      margin-top: 10px;
     }
   </style>
 </head>
@@ -128,18 +131,17 @@
   </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  © 2026 Gamer Zone. All Rights Reserved.GARENA OFFICIAL
+  © 2026 Gamer Zone. All Rights Reserved.|Garena International 
 </div>
 
-<!-- PRIVACY POLICY POPUP -->
+<!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-content">
     <h3>Privacy Policy</h3>
     <p>
-      We respect your privacy. Your login data is stored securely
-      for game access only and will not be shared with third parties.
+      Your data is used only for login access.
+      We do not share or sell your information.
     </p>
     <button onclick="closePolicy()">Close</button>
   </div>
@@ -155,7 +157,6 @@ function login() {
     return;
   }
 
-  // local storage only (no backend)
   localStorage.setItem("email", email);
 
   alert("Login Successful!");
