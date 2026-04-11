@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OTP Login</title>
+<title> Gamer zone Login</title>
 
 <style>
   * {
@@ -15,14 +15,7 @@
 
   body {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(135deg, #ff0000, #8b0000);
-    color: white;
-  }
-
-  .container {
-    flex: 1;
+    background: url("background.jpg") no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,10 +23,11 @@
 
   .box {
     width: 90%;
-    max-width: 360px;
-    background: rgba(0,0,0,0.5);
+    max-width: 350px;
+    background: rgba(0,0,0,0.6);
     padding: 20px;
     border-radius: 12px;
+    color: white;
     text-align: center;
   }
 
@@ -43,7 +37,6 @@
     margin: 8px 0;
     border: none;
     border-radius: 6px;
-    outline: none;
   }
 
   button {
@@ -56,76 +49,43 @@
     font-weight: bold;
   }
 
-  .send { background: #00ff88; }
-  .verify { background: #00aaff; }
+  .signup { background: #ffcc00; }
+  .login { background: #00ff88; }
+  .otp { background: #00aaff; }
 
   #msg {
     margin-top: 10px;
     font-size: 14px;
-  }
-
-  .info {
-    font-size: 12px;
-    margin-top: 10px;
-    opacity: 0.9;
-    line-height: 1.4;
-  }
-
-  footer {
-    text-align: center;
-    padding: 10px;
-    font-size: 12px;
-    background: rgba(0,0,0,0.4);
   }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div class="box">
+<div class="box">
 
-    <h2>OTP Login</h2>
+  <h2>Gamer zone Login</h2>
 
-    <!-- PHONE INPUT -->
-    <input type="text" id="phone" placeholder="+91XXXXXXXXXX">
+  <input type="email" id="email" placeholder="Enter Email">
+  <input type="password" id="password" placeholder="Enter Password">
 
-    <!-- OTP INPUT BOX -->
-    <input type="text" id="otp" placeholder="Enter OTP Code">
+  <button class="signup" onclick="signup()">Sign Up</button>
+  <button class="login" onclick="login()">Login</button>
+  <button class="otp" onclick="sendOTP()">Send Email OTP</button>
 
-    <!-- BUTTONS -->
-    <button class="send" onclick="sendOTP()">Send OTP</button>
-    <button class="verify" onclick="verifyOTP()">Verify OTP & Login</button>
+  <p id="msg"></p>
 
-    <!-- MESSAGE -->
-    <div id="msg"></div>
-
-    <div class="info">
-      📱 Step 1: Enter phone number<br>
-      📩 Step 2: Click Send OTP<br>
-      🔢 Step 3: Enter OTP in box<br>
-      🔓 Step 4: Verify & Login
-    </div>
-
-    <div id="recaptcha-container"></div>
-
-  </div>
 </div>
-
-<footer>
-  © 2026 Game Zone. All Rights Reserved.
-</footer>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getAuth,
-  signInWithPhoneNumber,
-  RecaptchaVerifier
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBBblC_ucasWx0FcMcz2SEyIYxJrMMNEmw",
@@ -133,69 +93,68 @@ const firebaseConfig = {
   projectId: "game-zone-24df2",
   storageBucket: "game-zone-24df2.appspot.com",
   messagingSenderId: "808747398959",
-  appId: "1:808747398959:web:107c04c3544a88048413da",
-  measurementId: "G-67CF0JJ7T6"
+  appId: "1:808747398959:web:107c04c3544a88048413da"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-getAnalytics(app);
-
-let confirmationResult;
 
 
-// CAPTCHA (REQUIRED)
-window.recaptchaVerifier = new RecaptchaVerifier(
-  'recaptcha-container',
-  {
-    size: 'normal'
-  },
-  auth
-);
+// SIGN UP
+window.signup = function () {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
 
-
-// SEND OTP
-window.sendOTP = function () {
-  let phone = document.getElementById("phone").value;
-
-  if (!phone) {
-    document.getElementById("msg").innerText = "Enter phone number!";
-    return;
-  }
-
-  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
-    .then((result) => {
-      confirmationResult = result;
-      document.getElementById("msg").innerText = "OTP sent successfully!";
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      document.getElementById("msg").innerText = "Account created!";
     })
-    .catch((error) => {
-      document.getElementById("msg").innerText = error.message;
+    .catch(err => {
+      document.getElementById("msg").innerText = err.message;
     });
 };
 
 
-// VERIFY OTP
-window.verifyOTP = function () {
-  let code = document.getElementById("otp").value;
+// LOGIN
+window.login = function () {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
 
-  if (!code) {
-    document.getElementById("msg").innerText = "Enter OTP!";
-    return;
-  }
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      let user = userCredential.user;
 
-  confirmationResult.confirm(code)
-    .then((result) => {
-      document.getElementById("msg").innerText =
-        "Login success! Redirecting...";
-
-      setTimeout(() => {
-        window.location.href = "uid.html";
-      }, 1000);
-
+      if (user.emailVerified) {
+        document.getElementById("msg").innerText = "Login success!";
+        setTimeout(() => {
+          window.location.href = "uid.html";
+        }, 1000);
+      } else {
+        document.getElementById("msg").innerText =
+          "Please verify OTP sent to email";
+        sendEmailVerification(user);
+      }
     })
-    .catch(() => {
-      document.getElementById("msg").innerText = "Invalid OTP!";
+    .catch(err => {
+      document.getElementById("msg").innerText = err.message;
     });
+};
+
+
+// SEND OTP (EMAIL VERIFICATION LINK)
+window.sendOTP = function () {
+  let user = auth.currentUser;
+
+  if (user) {
+    sendEmailVerification(user)
+      .then(() => {
+        document.getElementById("msg").innerText =
+          "OTP sent to email!";
+      });
+  } else {
+    document.getElementById("msg").innerText =
+      "Login first!";
+  }
 };
 
 </script>
