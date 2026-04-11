@@ -1,188 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>🎮Gamer Zone Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Gamer zone Login</title>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
     body {
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      background: radial-gradient(circle at top, #1a0000, #000000 60%),
-                  linear-gradient(135deg, #ff0000 20%, #000000 80%);
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(red, black);
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-      position: relative;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 60%);
-      pointer-events: none;
-    }
-
-    h1 {
-      position: absolute;
-      top: 20px;
-      color: white;
-      text-shadow: 0 0 10px red;
-      width: 100%;
-      text-align: center;
+      height: 100vh;
     }
 
     .box {
+      background: rgba(0,0,0,0.7);
+      padding: 25px;
+      border-radius: 15px;
       width: 90%;
-      max-width: 340px;
-      background: rgba(255,255,255,0.95);
-      padding: 20px;
-      border-radius: 12px;
+      max-width: 350px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(255,0,0,0.5);
-      z-index: 1;
     }
 
     input {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 8px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      border-radius: 8px;
+      border: none;
     }
 
     button {
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
-      background: black;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #222;
-    }
-
-    .switch {
       margin-top: 10px;
-      font-size: 12px;
-      color: red;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
     }
 
-    .footer {
-      position: absolute;
-      bottom: 10px;
-      color: white;
-      font-size: 12px;
-      text-align: center;
-      width: 100%;
+    .loginBtn {
+      background: white;
+      color: black;
+    }
+
+    .signupBtn {
+      background: #ffcc00;
+      color: black;
     }
   </style>
 </head>
 
 <body>
 
-<h1>🎮 Gamer Zone Login</h1>
-
 <div class="box">
+  <h2>🎮 Gamer Zone Login</h2>
 
-  <h2 id="title">Sign Up</h2>
+  <!-- UI login -->
+  <input type="text" placeholder="Email">
+  <input type="password" placeholder="Password">
 
-  <input type="email" id="email" placeholder="Enter Email">
-  <input type="password" id="password" placeholder="Enter Password">
+  <button class="loginBtn">Login</button>
 
-  <button onclick="signup()" id="signupBtn">Sign Up</button>
-  <button onclick="login()" id="loginBtn" style="display:none;">Login</button>
+  <!-- SIGN UP BUTTON -->
+  <button class="signupBtn" onclick="googleSignup()">
+    Sign Up with Google
+  </button>
 
-  <div class="switch" onclick="toggleMode()">
-    Switch to Login / Sign Up
+  <!-- Google Login hidden trigger -->
+  <div id="g_id_onload"
+       data-client_id="YOUR_CLIENT_ID"
+       data-callback="handleSignup"
+       style="display:none;">
   </div>
 
 </div>
 
-<div class="footer">
-  © 2026 Gamer Zone. All Rights Reserved
-</div>
-
 <script>
-let mode = "signup";
+function googleSignup() {
+  // triggers Google login
+  document.querySelector(".signupBtn").innerText = "Loading Google...";
+  
+  google.accounts.id.initialize({
+    client_id: "YOUR_CLIENT_ID",
+    callback: handleSignup
+  });
 
-// SWITCH LOGIN / SIGNUP UI
-function toggleMode() {
-  if (mode === "signup") {
-    mode = "login";
-    document.getElementById("title").innerText = "Login";
-    document.getElementById("signupBtn").style.display = "none";
-    document.getElementById("loginBtn").style.display = "block";
-  } else {
-    mode = "signup";
-    document.getElementById("title").innerText = "Sign Up";
-    document.getElementById("signupBtn").style.display = "block";
-    document.getElementById("loginBtn").style.display = "none";
-  }
+  google.accounts.id.prompt();
 }
 
-// 🔥 SIGN UP → GOOGLE FORM → UID PAGE
-function signup() {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
+function handleSignup(response) {
+  const user = parseJwt(response.credential);
 
-  if (!email || !password) {
-    alert("Please fill all fields");
-    return;
-  }
+  alert("Signup Successful 🎉\nWelcome " + user.name);
 
-  // store locally (optional)
-  localStorage.setItem("user_email", email);
-  localStorage.setItem("user_password", password);
-
-  // open google form
-  window.open(
-    "https://docs.google.com/forms/d/e/1FAIpQLSddWzlCgcpzw1ZnefYzfvNmSau9p4dbm-V5Zc4UjlUg4vJVDA/viewform?embedded=true",
-    "_blank"
-  );
-
-  alert("Complete Google Form to continue...");
-
-  // redirect after delay
-  setTimeout(() => {
-    window.location.href = "uid.html";
-  }, 15000);
+  // redirect to login page
+  window.location.href = "login.html";
 }
 
-// 🔐 LOGIN CHECK (local only)
-function login() {
-  let email = document.getElementById("email").value;
-  let password = document.getElementById("password").value;
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
 
-  let savedEmail = localStorage.getItem("user_email");
-  let savedPassword = localStorage.getItem("user_password");
-
-  if (email === savedEmail && password === savedPassword) {
-    alert("Login Successful!");
-
-    setTimeout(() => {
-      window.location.href = "uid.html";
-    }, 2000);
-
-  } else {
-    alert("Invalid credentials!");
-  }
+  return JSON.parse(jsonPayload);
 }
 </script>
 
