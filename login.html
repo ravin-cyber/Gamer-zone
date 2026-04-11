@@ -3,6 +3,8 @@
 <head>
   <title>Gamer Zone Login</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     * {
       margin: 0;
@@ -11,17 +13,30 @@
       font-family: Arial, sans-serif;
     }
 
-    /* 🔴 FULL SCREEN RED + WHITE GAMING BACKGROUND */
+    /* 🎮 PRO GAMING BACKGROUND (INDEX STYLE) */
     body {
       height: 100vh;
       width: 100vw;
       overflow: hidden;
 
-      background: linear-gradient(135deg, red 50%, white 50%);
+      /* Pro gaming neon background */
+      background: radial-gradient(circle at top, #1a0000, #000000 60%),
+                  linear-gradient(135deg, #ff0000 20%, #000000 80%);
+      
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
+    }
+
+    /* glow effect overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 60%);
+      pointer-events: none;
     }
 
     /* TITLE */
@@ -29,18 +44,22 @@
       position: absolute;
       top: 20px;
       color: white;
-      text-shadow: 0 0 8px black;
-      font-size: 26px;
+      font-size: 22px;
+      text-shadow: 0 0 10px red;
+      text-align: center;
+      width: 100%;
     }
 
     /* LOGIN BOX */
     .box {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 25px;
+      width: 90%;
+      max-width: 340px;
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
       border-radius: 12px;
-      width: 320px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 20px rgba(255,0,0,0.5);
+      z-index: 1;
     }
 
     .box h2 {
@@ -50,28 +69,28 @@
 
     input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 8px 0;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 14px;
     }
 
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: black;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
-      margin-top: 5px;
+      font-size: 15px;
     }
 
     button:hover {
-      background: #333;
+      background: #222;
     }
 
-    /* LINKS */
     .links {
       margin-top: 10px;
       font-size: 12px;
@@ -79,16 +98,19 @@
 
     .links a {
       color: red;
-      cursor: pointer;
       font-weight: bold;
+      cursor: pointer;
     }
 
     /* FOOTER */
     .footer {
       position: absolute;
       bottom: 10px;
-      color: black;
+      color: white;
       font-size: 12px;
+      text-shadow: 0 0 5px black;
+      text-align: center;
+      width: 100%;
     }
 
     /* POPUP */
@@ -99,7 +121,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       justify-content: center;
       align-items: center;
     }
@@ -108,9 +130,21 @@
       background: white;
       padding: 20px;
       border-radius: 10px;
-      width: 300px;
+      width: 85%;
+      max-width: 300px;
       text-align: center;
     }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 18px;
+      }
+
+      .box {
+        padding: 18px;
+      }
+    }
+
   </style>
 </head>
 
@@ -132,16 +166,16 @@
 </div>
 
 <div class="footer">
-  © 2026 Gamer Zone. All Rights Reserved.|Garena International 
+  © 2026 Gamer Zone. All Rights Reserved.| Garena International 
 </div>
 
-<!-- POPUP -->
+<!-- PRIVACY POPUP -->
 <div class="popup" id="popup">
   <div class="popup-content">
     <h3>Privacy Policy</h3>
     <p>
       Your data is used only for login access.
-      We do not share or sell your information.
+      We do not share or store it publicly.
     </p>
     <button onclick="closePolicy()">Close</button>
   </div>
